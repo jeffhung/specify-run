@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+###############################################################################
+# SpecKit repo-pinned entrypoint
+#
+# Responsibilities:
+# - Canonical command: ./specify
+# - Ensure Python + venv exist
+# - Ensure SpecKit is installed at pinned version
+# - Prevent global / PATH-based execution
+# - Work for humans, CI, editors, and AI agents
+###############################################################################
+
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+VENV="$ROOT/.venv"
+PYTHON="${PYTHON:-python3}"
+
+# ---------------------------------------------------------------------------
+# Configuration (PIN HERE)
+# ---------------------------------------------------------------------------
+
+# Pin SpecKit source and ref
+SPECKIT_GIT="https://github.com/github/spec-kit.git"
+SPECKIT_REF="v0.3.2"
+
+# Marker to avoid re-install loops
+STAMP="$VENV/.speckit-installed-$SPECKIT_REF"
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+die() {
+  echo "ERROR: $*" >&2
+  exit 1
+}
+
+info() {
+  echo "[specify] $*"
+}
+
+# ---------------------------------------------------------------------------
+# Sanity checks
+# ---------------------------------------------------------------------------
+
+command -v "$PYTHON" >/dev/null \
+  || die "Python not found (set PYTHON=python3.x if needed)"
+
+# ---------------------------------------------------------------------------
+# Ensure virtualenv
+# ---------------------------------------------------------------------------
+
+if [[ ! -d "$VENV" ]]; then
+  info "Creating virtualenv at .venv"
+  "$PYTHON" -m venv "$VENV"
+fi
+
+SPECIFY="$VENV/bin/specify"
+PIP="$VENV/bin/pip"
+
+# ---------------------------------------------------------------------------
+# Ensure SpecKit installed (pinned)
+# ---------------------------------------------------------------------------
+
+if [[ ! -f "$STAMP" ]]; then
+  info "Installing SpecKit ($SPECKIT_REF)"
+  "$PIP" install --upgrade \
+    "git+$SPECKIT_GIT@$SPECKIT_REF"
+  touch "$STAMP"
+fi
+
+[[ -x "$SPECIFY" ]] || die "SpecKit entrypoint missing after install"
+
+# ---------------------------------------------------------------------------
+# Guardrails
+# ---------------------------------------------------------------------------
+
+# Disallow accidental global invocation fallback
+if [[ "$(command -v specify 2>/dev/null || true)" != "$SPECIFY" ]]; then
+  :
+  # intentionally silent; wrapper always wins
+fi
+
+# ---------------------------------------------------------------------------
+# Exec
+# ---------------------------------------------------------------------------
+
+exec "$SPECIFY" "$@"
+
