@@ -22,7 +22,7 @@ PYTHON="${PYTHON:-python3}"
 
 # Pin SpecKit source and ref
 SPECKIT_GIT="https://github.com/github/spec-kit.git"
-SPECKIT_REF="v0.3.2"
+SPECKIT_REF="v0.0.90"
 
 # Marker to avoid re-install loops
 STAMP="$VENV/.speckit-installed-$SPECKIT_REF"
