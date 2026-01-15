@@ -161,6 +161,28 @@ git add specify-run && git commit -m "Upgrade specify-run script"
 
 > After upgrading the script, delete `.venv/` to ensure a clean reinstall.
 
+### Rollback
+
+Both SpecKit versions and script changes are tracked in git. To rollback:
+
+**Rollback SpecKit version:**
+
+```bash
+git revert <commit-that-changed-SPECKIT_REF>
+rm -rf .venv
+./specify-run
+```
+
+**Rollback script upgrade:**
+
+```bash
+git checkout <previous-commit> -- specify-run
+rm -rf .venv
+./specify-run
+```
+
+> Always delete `.venv/` after any rollback to ensure clean state.
+
 ---
 
 ## Reproducibility guarantees

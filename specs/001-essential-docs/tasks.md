@@ -123,7 +123,7 @@ rollback in <2 minutes.
 
 - [x] T024 [US5] Verify SpecKit upgrade procedure is clear in README.md
 - [x] T025 [US5] Add "Upgrading the specify-run script" section in README.md
-- [ ] T026 [US5] Add rollback procedure documentation in README.md
+- [x] T026 [US5] Add rollback procedure documentation in README.md
 
 **Checkpoint**: Upgrade and rollback procedures work as documented
 
