@@ -5,11 +5,11 @@
 
 ## Summary
 
-Create comprehensive documentation in README.md that covers all essential topics
-for specify-run adopters: what it is, how it works, why it's needed, security
-hardening, CI/CD integration, Claude Code setup, upgrade procedures, and design
-rationale. Documentation must enable first-time users to successfully install
-and use specify-run within 10 minutes.
+Create comprehensive documentation using a persona-based 3-file structure:
+README.md (adopters), SECURITY.md (security reviewers), and INTEGRATION.md
+(CI/agent integration). All files in repository root with uppercase names.
+README serves as entry point linking to specialized docs. Documentation must
+enable first-time users to install and use specify-run within 10 minutes.
 
 ## Technical Context
 
@@ -20,8 +20,8 @@ and use specify-run within 10 minutes.
 **Target Platform**: GitHub-rendered Markdown, terminal display
 **Project Type**: Documentation-only feature
 **Performance Goals**: N/A
-**Constraints**: Must fit in single README.md file
-**Scale/Scope**: ~12 documentation sections covering all required topics
+**Constraints**: Exactly 3 documentation files, persona-based organization
+**Scale/Scope**: ~12 documentation topics across 3 files
 
 ## Constitution Check
 
@@ -29,11 +29,11 @@ and use specify-run within 10 minutes.
 
 | Principle | Requirement | Status |
 |-----------|-------------|--------|
-| I. Single-File Distribution | Document that script is single file, copy-to-use | ✅ Will document |
-| II. Zero Configuration | Document that no setup required beyond copy+run | ✅ Will document |
-| III. Pinned Reproducibility | Explain SPECKIT_REF pinning and its purpose | ✅ Will document |
-| IV. Explicit Upgrades | Document upgrade procedure via editing SPECKIT_REF | ✅ Will document |
-| V. Agent-Safe Design | Document Claude Code integration instructions | ✅ Will document |
+| I. Single-File Distribution | Document that script is single file, copy-to-use | ✅ Will document in README.md |
+| II. Zero Configuration | Document that no setup required beyond copy+run | ✅ Will document in README.md |
+| III. Pinned Reproducibility | Explain SPECKIT_REF pinning and its purpose | ✅ Will document in README.md |
+| IV. Explicit Upgrades | Document upgrade procedure via editing SPECKIT_REF | ✅ Will document in README.md |
+| V. Agent-Safe Design | Document Claude Code integration instructions | ✅ Will document in INTEGRATION.md |
 
 All gates pass. Documentation feature aligns with constitution principles.
 
@@ -44,20 +44,55 @@ All gates pass. Documentation feature aligns with constitution principles.
 ```text
 specs/001-essential-docs/
 ├── plan.md              # This file
-├── research.md          # Phase 0: existing README analysis
+├── research.md          # Phase 0: content mapping analysis
 ├── quickstart.md        # Phase 1: validation guide
 └── tasks.md             # Phase 2 output (via /speckit.tasks)
 ```
 
-### Source Code (repository root)
+### Deliverables (repository root)
 
 ```text
-README.md                # Primary deliverable - enhanced documentation
+README.md                # Entry point for adopters
+SECURITY.md              # Security reviewer documentation
+INTEGRATION.md           # CI/agent integration documentation
 ```
 
-**Structure Decision**: Documentation-only feature. Single file (README.md)
-will be enhanced with all required content. No source code changes needed.
-No contracts/ or data-model.md required (no APIs or data entities).
+**Structure Decision**: Persona-based documentation. Three files in repository
+root, each targeting a specific audience. No subdirectories needed.
+
+## Content Mapping
+
+### README.md (Adopters)
+
+Covers FR-001, FR-002, FR-003, FR-007, FR-008, FR-009, FR-010, FR-011, FR-012:
+- What is specify-run (FR-001)
+- How it works / bootstrap flow (FR-002)
+- Why pinned execution (FR-003)
+- Local development usage (FR-007)
+- Upgrade SpecKit version (FR-008)
+- Upgrade specify-run script (FR-009)
+- Why virtualenv (FR-010)
+- Why pin SpecKit (FR-011)
+- Why commit script (FR-012)
+- Links to SECURITY.md and INTEGRATION.md
+
+### SECURITY.md (Security Reviewers)
+
+Covers FR-004:
+- Threat model
+- Hardening properties (no global state, explicit upgrades, auditability)
+- Supply-chain protections
+- Concrete attack examples prevented
+- Version pinning security benefits
+
+### INTEGRATION.md (CI/Agents)
+
+Covers FR-005, FR-006:
+- GitHub Actions examples (FR-006)
+- Claude Code setup with CLAUDE.md snippet (FR-005)
+- Other CI systems guidance
+- Troubleshooting
+- Anti-patterns (what NOT to do)
 
 ## Complexity Tracking
 

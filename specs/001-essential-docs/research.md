@@ -3,88 +3,107 @@
 **Feature**: 001-essential-docs
 **Date**: 2026-01-15
 
-## Existing README Analysis
+## Documentation Structure Decision
 
-The current README.md already covers many required topics. This research
-documents coverage gaps and enhancement opportunities.
+Per user clarification, documentation uses a persona-based 3-file structure:
+- **README.md**: Entry point for adopters
+- **SECURITY.md**: Security reviewer documentation
+- **INTEGRATION.md**: CI/agent integration documentation
 
-### Current Coverage Assessment
+All files in repository root with uppercase names.
 
-| Required Topic (FR) | Current Status | Gap Analysis |
-|---------------------|----------------|--------------|
-| FR-001: What is specify-run | ✅ Covered | Opening paragraph explains purpose |
-| FR-002: How it works | ✅ Covered | "How it works" section with 5-step flow |
-| FR-003: Why pinned execution | ✅ Covered | "Why this exists" section |
-| FR-004: Security hardening | ✅ Covered | "Security model" section |
-| FR-005: Claude Code integration | ⚠️ Partial | Mentions file path but lacks actionable content |
-| FR-006: GitHub Actions example | ✅ Covered | "CI usage" section with example |
-| FR-007: Local development usage | ✅ Covered | "Usage" section |
-| FR-008: Upgrade SpecKit | ✅ Covered | "SpecKit version pinning" section |
-| FR-009: Upgrade specify-run script | ❌ Missing | No guidance on upgrading the script itself |
-| FR-010: Why virtualenv | ⚠️ Partial | Mentioned but rationale not explicit |
-| FR-011: Why pin SpecKit | ✅ Covered | "Why this exists" + reproducibility table |
-| FR-012: Why commit script | ❌ Missing | Not explicitly explained |
+## Existing Content Analysis
 
-### Decisions
+### Current README.md Coverage
 
-#### Decision 1: Claude Code Integration Content
+| Required Topic (FR) | Current Status | Target File | Gap Analysis |
+|---------------------|----------------|-------------|--------------|
+| FR-001: What is specify-run | ✅ Covered | README.md | Keep in README |
+| FR-002: How it works | ✅ Covered | README.md | Keep in README |
+| FR-003: Why pinned execution | ✅ Covered | README.md | Keep in README |
+| FR-004: Security hardening | ✅ Covered | SECURITY.md | Move to SECURITY.md, expand |
+| FR-005: Claude Code integration | ⚠️ Partial | INTEGRATION.md | Move to INTEGRATION.md, add snippet |
+| FR-006: GitHub Actions example | ✅ Covered | INTEGRATION.md | Move to INTEGRATION.md |
+| FR-007: Local development usage | ✅ Covered | README.md | Keep in README |
+| FR-008: Upgrade SpecKit | ✅ Covered | README.md | Keep in README |
+| FR-009: Upgrade specify-run script | ❌ Missing | README.md | Add to README |
+| FR-010: Why virtualenv | ⚠️ Partial | README.md | Expand in README |
+| FR-011: Why pin SpecKit | ✅ Covered | README.md | Keep in README |
+| FR-012: Why commit script | ❌ Missing | README.md | Add to README |
 
-**Decision**: Add concrete CLAUDE.md snippet that adopters can copy to their project.
+## Content Migration Plan
 
-**Rationale**: Current documentation says "use .claude/instructions.md" but doesn't
-show what content to put there. Users need copy-paste example.
+### README.md Refactoring
 
-**Alternatives considered**:
-- Link to external docs: Rejected (adds friction, may become stale)
-- Template file: Rejected (user clarification chose README-only approach)
+**Keep and enhance**:
+- Opening paragraph (FR-001)
+- "How it works" section (FR-002)
+- "Why this exists" section (FR-003)
+- "Usage" section (FR-007)
+- "SpecKit version pinning" section (FR-008, FR-011)
+- "Troubleshooting" section
 
-#### Decision 2: Script Upgrade Documentation
+**Add new content**:
+- "Why a virtualenv?" section (FR-010) - explicit rationale
+- "Upgrading the specify-run script" section (FR-009)
+- "Why commit this script?" section (FR-012)
+- Links to SECURITY.md and INTEGRATION.md
 
-**Decision**: Add section explaining how to upgrade the specify-run script itself.
+**Move to other files**:
+- "Security model" section → SECURITY.md
+- "CI usage" section → INTEGRATION.md
+- "Editor / AI agent integration" section → INTEGRATION.md
 
-**Rationale**: FR-009 requires this. Users need to know:
-1. Where to get the latest script
-2. How to replace it safely
-3. Difference between upgrading SpecKit vs upgrading the script
+### SECURITY.md (New File)
 
-**Alternatives considered**:
-- Omit (rely on users figuring it out): Rejected (violates FR-009)
-- Separate upgrade guide: Rejected (consolidation requirement FR-013)
+Content from existing README "Security model" section plus:
+- Expanded threat model
+- Concrete attack examples prevented
+- Supply-chain protection details
+- Comparison to global install risks
 
-#### Decision 3: Virtualenv Rationale
+### INTEGRATION.md (New File)
 
-**Decision**: Add explicit explanation of why virtualenv is used.
+Content from existing README plus:
+- GitHub Actions section (expanded from current)
+- Claude Code section with complete CLAUDE.md snippet
+- Other CI systems (generic guidance)
+- Troubleshooting CI-specific issues
+- Anti-patterns section
 
-**Rationale**: Technical users will ask "why not use system Python?" Need clear
-answer: isolation prevents conflicts, enables reproducibility, allows pinning.
+## Decisions
 
-**Alternatives considered**:
-- Assume users understand: Rejected (FR-010 requires explicit explanation)
+### Decision 1: Claude Code Integration Content
 
-#### Decision 4: Script Commitment Rationale
+**Decision**: Add concrete CLAUDE.md snippet in INTEGRATION.md.
 
-**Decision**: Add section explaining why script must be committed to repository.
+**Rationale**: Users need copy-paste example for their project's CLAUDE.md.
 
-**Rationale**: FR-012 requires this. Key points:
-- Ensures all team members use same script version
-- Visible in code review
-- No external download step during CI
-- Auditable history
+### Decision 2: Script Upgrade Documentation
 
-**Alternatives considered**:
-- Assume it's obvious: Rejected (explicit documentation required)
+**Decision**: Add "Upgrading the specify-run script" section in README.md.
 
-### Content Structure Recommendation
+**Rationale**: FR-009 requires this. Distinct from upgrading SpecKit.
 
-Enhance existing README with these additions/modifications:
+### Decision 3: Virtualenv Rationale
 
-1. **Add to "Why this exists"**: Brief mention of why script is committed
-2. **Add new section "Why a virtualenv?"**: 3-4 bullet rationale
-3. **Enhance "Editor / AI agent integration"**: Full CLAUDE.md snippet example
-4. **Add new section "Upgrading the specify-run script"**: Step-by-step guide
-5. **Add new section "Why commit this script?"**: Explicit rationale
+**Decision**: Add explicit "Why a virtualenv?" section in README.md.
 
-### No NEEDS CLARIFICATION Items
+**Rationale**: FR-010 requires explicit explanation (isolation, reproducibility).
 
-All technical decisions can be made based on existing context and best practices.
-No external research required for this documentation feature.
+### Decision 4: Script Commitment Rationale
+
+**Decision**: Add "Why commit this script?" section in README.md.
+
+**Rationale**: FR-012 requires this (team consistency, auditability, CI).
+
+### Decision 5: Content Extraction
+
+**Decision**: Extract security and integration content to separate files.
+
+**Rationale**: FR-013 requires persona-based structure. Security reviewers
+and DevOps engineers have distinct needs.
+
+## No NEEDS CLARIFICATION Items
+
+All technical decisions resolved. Documentation structure clarified by user.
