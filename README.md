@@ -186,33 +186,6 @@ Benefits of committing the script:
 
 ---
 
-## CI usage
-
-Example (GitHub Actions):
-
-```yaml
-- name: Run SpecKit
-  run: ./specify-run
-```
-
-No environment activation required.
-
----
-
-## Editor / AI agent integration
-
-### Claude Code
-
-Claude Code is instructed to use `./specify-run` exclusively via:
-
-```text
-.claude/instructions.md
-```
-
-Agents must **never infer tooling**.
-
----
-
 ## Directory layout
 
 ```text
