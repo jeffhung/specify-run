@@ -10,6 +10,9 @@ All humans, CI jobs, editors, and AI agents **must** invoke SpecKit via:
 ./specify-run <command>
 ```
 
+**See also**: [SECURITY.md](SECURITY.md) for threat model and hardening |
+[INTEGRATION.md](INTEGRATION.md) for CI and Claude Code setup
+
 ---
 
 ## Why this exists
