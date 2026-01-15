@@ -154,6 +154,19 @@ The next run will automatically upgrade.
 
 ---
 
+## Why a virtualenv?
+
+The script creates a project-local `.venv/` directory because:
+
+* **Isolation**: SpecKit and its dependencies never conflict with system Python or other projects
+* **Reproducibility**: The exact same environment is recreated on every machine
+* **No sudo required**: Everything installs in user space, no root privileges needed
+* **Clean removal**: Delete `.venv/` to completely remove all installed packages
+
+> The virtualenv is an implementation detail. You never need to activate it manually.
+
+---
+
 ## Security model
 
 This design intentionally avoids:
