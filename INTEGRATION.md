@@ -122,3 +122,58 @@ pipeline {
 | Git | For first-run installation |
 | Network | Only needed on first run (or after cache clear) |
 | Bash | Script requires bash shell |
+
+---
+
+## CI Troubleshooting
+
+### Python not found
+
+**Symptom**: `python: command not found` or `python3: command not found`
+
+**Solution**: Ensure Python is installed and in PATH. Most CI systems provide a
+Python setup action or Docker image.
+
+```bash
+# Override Python path if needed
+PYTHON=python3.11 ./specify-run
+```
+
+### Permission denied
+
+**Symptom**: `./specify-run: Permission denied`
+
+**Solution**: The script needs execute permission. Either:
+
+```bash
+chmod +x ./specify-run && ./specify-run
+```
+
+Or run via bash:
+
+```bash
+bash ./specify-run
+```
+
+### Network timeout on first run
+
+**Symptom**: Git clone fails during first run
+
+**Solution**: The script clones SpecKit from GitHub on first run. Ensure:
+
+* Network access to github.com
+* No proxy blocking Git protocol
+* Sufficient timeout for clone operation
+
+### Cache issues
+
+**Symptom**: Old version of SpecKit runs after updating `SPECKIT_REF`
+
+**Solution**: Clear the virtualenv and cache:
+
+```bash
+rm -rf .venv
+./specify-run
+```
+
+In CI, ensure cache key includes the script hash to auto-invalidate.
