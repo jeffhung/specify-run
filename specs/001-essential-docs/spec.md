@@ -10,6 +10,7 @@
 ### Session 2026-01-15
 
 - Q: Where should Claude Code integration instructions for adopting projects be documented? → A: README.md only (show users what to add to their project's CLAUDE.md)
+- Q: How should documentation be structured (by persona)? → A: 3 docs in root folder with uppercase names: README.md (adopters) + SECURITY.md (security reviewers) + INTEGRATION.md (CI/agents)
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -149,17 +150,23 @@ verifying the new version is active and rollback works.
 - **FR-010**: Documentation MUST explain why a virtualenv is provisioned.
 - **FR-011**: Documentation MUST explain why SpecKit version pinning matters.
 - **FR-012**: Documentation MUST explain why the script must be committed.
-- **FR-013**: Documentation MUST be consolidatable into a single README or
-  minimal set of documents (not one doc per topic).
+- **FR-013**: Documentation MUST use a minimal persona-based structure:
+  README.md as entry point for adopters, SECURITY.md for security reviewers,
+  INTEGRATION.md for CI/agent integration. All files in repository root with
+  uppercase names. README links to other docs.
 - **FR-014**: Documentation MUST use concrete examples, not abstract descriptions.
 - **FR-015**: Documentation MUST avoid implementation jargon where possible;
   explain in terms understandable to developers unfamiliar with SpecKit.
 
 ### Key Entities
 
-- **README.md**: Primary documentation file in repository root; serves as the
-  main entry point for all documentation topics, including Claude Code
-  integration instructions that adopters add to their own project's CLAUDE.md.
+- **README.md**: Entry point for adopters; covers what, why, how, installation,
+  basic usage, and upgrade procedures. Links to SECURITY.md and INTEGRATION.md.
+- **SECURITY.md**: Security reviewer documentation; covers threat model,
+  hardening properties, supply-chain protections, attack examples prevented.
+- **INTEGRATION.md**: CI/agent integration documentation; covers GitHub Actions
+  examples, Claude Code setup (with CLAUDE.md snippet for adopters),
+  troubleshooting, anti-patterns.
 
 ## Success Criteria *(mandatory)*
 
@@ -173,8 +180,8 @@ verifying the new version is active and rollback works.
 - **SC-004**: GitHub Actions example works when copy-pasted without modification.
 - **SC-005**: Claude Code integration instructions result in correct agent
   behavior on first configuration attempt.
-- **SC-006**: Documentation fits in README.md only (no additional files
-  required for core topics).
+- **SC-006**: Documentation uses exactly 3 files in repository root:
+  README.md + SECURITY.md + INTEGRATION.md. README serves as entry point.
 
 ## Assumptions
 
