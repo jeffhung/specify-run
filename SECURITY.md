@@ -35,3 +35,25 @@ This design does not protect against:
 * Compromised Git repository (mitigate: pin to SHA, vendor dependencies)
 * Malicious code in SpecKit itself (mitigate: audit before adoption)
 * Local machine compromise (out of scope)
+
+---
+
+## Hardening Properties
+
+The `specify-run` design provides the following security properties:
+
+| Property | Description |
+|----------|-------------|
+| No global state | Script uses project-local `.venv/`; no system-wide side effects |
+| Explicit upgrades | Version changes require editing `SPECKIT_REF` and committing |
+| Auditability | All tooling changes visible in git history |
+| Deterministic behavior | Same script + same ref = same behavior across machines |
+| No hidden resolution | No PATH lookup, no implicit package manager calls |
+
+### Verification
+
+Security reviewers can verify these properties by:
+
+1. Reading the script source (single file, <200 lines)
+2. Checking `SPECKIT_REF` value against known-good versions
+3. Reviewing git history for script changes
