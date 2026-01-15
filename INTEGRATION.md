@@ -238,3 +238,28 @@ The `specify-run` script ensures:
 - No global dependencies (isolated environment)
 - Consistent behavior across all machines
 ````
+
+---
+
+## Anti-Patterns
+
+These patterns break the deterministic execution model. Agents and automation
+**must avoid** them.
+
+| Anti-Pattern | Why It's Wrong | Correct Alternative |
+|--------------|----------------|---------------------|
+| `speckit` | Relies on global install / PATH | `./specify-run` |
+| `pip install speckit` | Bypasses version pinning | Let script handle install |
+| `source .venv/bin/activate` | Manual activation is fragile | Script activates automatically |
+| `python -m speckit` | Wrong Python, wrong packages | `./specify-run` |
+| Modifying `.venv/` | Breaks reproducibility | Delete and re-run script |
+| Caching `.venv/` without script hash | Stale cache after version change | Include script in cache key |
+
+### How to detect violations
+
+If an agent produces any of these commands, the CLAUDE.md instructions are
+either missing or not being followed. Verify:
+
+1. `.claude/CLAUDE.md` exists and contains the SpecKit rules
+2. The agent is reading the instructions file
+3. No conflicting instructions override the SpecKit rules
