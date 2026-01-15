@@ -133,7 +133,7 @@ rollback in <2 minutes.
 
 **Purpose**: Final review and validation against acceptance criteria
 
-- [ ] T027 Review README.md for consistency and flow
+- [x] T027 Review README.md for consistency and flow
 - [ ] T028 Review SECURITY.md for completeness
 - [ ] T029 Review INTEGRATION.md for completeness
 - [ ] T030 Verify all 12 required topics are covered across 3 files
