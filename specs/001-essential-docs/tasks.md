@@ -65,7 +65,7 @@ threat mitigations from SECURITY.md.
 ### Implementation for User Story 2
 
 - [x] T011 [P] [US2] Create SECURITY.md with header and introduction
-- [ ] T012 [US2] Add threat model section to SECURITY.md
+- [x] T012 [US2] Add threat model section to SECURITY.md
 - [ ] T013 [US2] Add hardening properties section to SECURITY.md
 - [ ] T014 [US2] Add supply-chain protection section to SECURITY.md
 - [ ] T015 [US2] Add concrete attack examples prevented to SECURITY.md
