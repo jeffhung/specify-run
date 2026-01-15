@@ -89,3 +89,36 @@ For higher security environments:
 | Pin to SHA | `SPECKIT_REF="abc123..."` | Immune to tag mutation; harder to read |
 | Vendor dependencies | Copy SpecKit source into repo | Full control; maintenance burden |
 | Private mirror | Host internal Git mirror | Air-gapped; infrastructure overhead |
+
+---
+
+## Attack Examples Prevented
+
+### Example 1: PATH Hijacking
+
+**Scenario**: Attacker places malicious `speckit` binary in a directory that
+appears earlier in `$PATH`.
+
+**With global install**: User runs `speckit` and executes attacker's binary.
+
+**With specify-run**: User runs `./specify-run` which uses explicit path to
+virtualenv Python. PATH is never consulted for tool resolution.
+
+### Example 2: Dependency Confusion
+
+**Scenario**: Attacker publishes malicious package with similar name to PyPI.
+
+**With global install**: `pip install speckit` might pull wrong package or
+malicious dependency.
+
+**With specify-run**: Installation uses Git URL directly. No PyPI resolution
+occurs.
+
+### Example 3: Silent Version Bump
+
+**Scenario**: Upstream maintainer pushes breaking change or compromised version.
+
+**With global install**: Next `pip install --upgrade` silently pulls new version.
+
+**With specify-run**: Version change requires editing `SPECKIT_REF` and passing
+code review. Team is aware of every version change.
