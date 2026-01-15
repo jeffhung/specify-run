@@ -1,50 +1,107 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+==================
+Version change: N/A → 0.1.0 (initial planning/PoC)
+Modified sections:
+  - Project Mission: clarified flexible directory placement
+  - Distribution Model: updated for any-directory installation
+Templates requiring updates:
+  - plan-template.md: ✅ Compatible (Constitution Check section exists)
+  - spec-template.md: ✅ Compatible (no constitution-specific content)
+  - tasks-template.md: ✅ Compatible (no constitution-specific content)
+Follow-up TODOs: None
+-->
+
+# specify-run Constitution
+
+## Project Mission
+
+This project builds the `specify-run` tool: a self-bootstrapping, directory-
+pinned SpecKit entrypoint script. Any project wanting to use SpecKit securely
+installs the `specify-run` script into the directory where SpecKit should be
+provisioned (repository root or any subdirectory), then invokes all SpecKit
+commands exclusively through it.
+
+**Status**: Planning and proof-of-concept stage.
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Single-File Distribution
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+The `specify-run` script MUST be a single, self-contained bash file with no
+external dependencies beyond Python 3.9+ and Git. Users MUST be able to copy
+one file into their project to gain full functionality.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+**Rationale**: Single-file distribution minimizes installation friction and
+eliminates dependency management for adopting projects.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. Zero Configuration
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+The script MUST work immediately after copying, with sensible defaults. No
+configuration files, environment setup, or manual steps MUST be required for
+basic operation.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+**Rationale**: Zero-friction adoption encourages correct usage over shortcuts.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### III. Pinned Reproducibility
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+The script MUST pin SpecKit to a specific Git ref (`SPECKIT_REF`). Adopting
+projects MUST get deterministic, reproducible behavior across machines, CI,
+and time.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Rationale**: Reproducibility is the core value proposition—without it, the
+tool has no purpose.
+
+### IV. Explicit Upgrades
+
+Version changes MUST require editing `SPECKIT_REF` in the script. No automatic,
+silent, or network-triggered upgrades are permitted. All changes MUST be visible
+in version control.
+
+**Rationale**: Explicit upgrades enable security review and prevent supply-chain
+attacks.
+
+### V. Agent-Safe Design
+
+AI agents (Claude Code, etc.) MUST be treated as first-class users. The script
+MUST provide clear, unambiguous invocation patterns that agents can follow
+without inferring paths or versions.
+
+**Rationale**: AI-assisted development is a primary use case; fragile automation
+defeats the tool's purpose.
+
+## Distribution Model
+
+Adopting projects install `specify-run` by:
+
+1. Copying the script to the target directory (repository root or subdirectory)
+2. Making it executable (`chmod +x specify-run`)
+3. Running `./specify-run` (auto-bootstraps on first run)
+
+The script provisions SpecKit relative to its own location:
+- Virtualenv creation (`.venv/` in script's directory)
+- SpecKit installation from pinned ref
+- `.specify/` folder created in script's directory
+- All subsequent SpecKit invocations
+
+Example: placing `specify-run` in `foo_module/` provisions SpecKit at
+`foo_module/.venv/` and `foo_module/.specify/`.
+
+## Amendment Process
+
+1. Propose change via pull request modifying this file
+2. Document rationale in PR description
+3. Increment version per semantic versioning:
+   - MAJOR: Backward-incompatible governance changes
+   - MINOR: New principles or material expansions
+   - PATCH: Clarifications or typo fixes
+4. Update `LAST_AMENDED_DATE` to amendment date
+5. Merge after review
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes conflicting practices. All contributors and agents
+MUST verify compliance before making changes. Use `CLAUDE.md` for runtime
+development guidance.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 0.1.0 | **Ratified**: 2026-01-15 | **Last Amended**: 2026-01-15
