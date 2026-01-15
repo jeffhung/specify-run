@@ -67,3 +67,58 @@ For faster subsequent runs, cache the virtualenv:
 * No `pip install` step required - the script handles installation
 * No virtualenv activation required - the script handles execution
 * Cache key uses `specify-run` hash to invalidate when version changes
+
+---
+
+## Other CI Systems
+
+The pattern is the same for any CI system:
+
+1. Check out the repository
+2. Ensure Python 3.9+ is available
+3. Run `./specify-run`
+
+### GitLab CI
+
+```yaml
+speckit:
+  image: python:3.11
+  script:
+    - ./specify-run
+```
+
+### CircleCI
+
+```yaml
+jobs:
+  speckit:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - checkout
+      - run: ./specify-run
+```
+
+### Jenkins
+
+```groovy
+pipeline {
+    agent any
+    stages {
+        stage('SpecKit') {
+            steps {
+                sh './specify-run'
+            }
+        }
+    }
+}
+```
+
+### Generic requirements
+
+| Requirement | Notes |
+|-------------|-------|
+| Python 3.9+ | Must be in PATH |
+| Git | For first-run installation |
+| Network | Only needed on first run (or after cache clear) |
+| Bash | Script requires bash shell |
