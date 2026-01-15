@@ -143,6 +143,24 @@ SPECKIT_REF="v0.3.2"
 
 The next run will automatically upgrade.
 
+### Upgrade the specify-run script
+
+The `specify-run` script itself may receive updates (bug fixes, new features).
+
+To upgrade the script:
+
+1. Copy the latest version from the upstream repository
+2. Replace your `specify-run` file
+3. Commit the change
+
+```bash
+curl -o specify-run https://raw.githubusercontent.com/.../specify-run
+chmod +x specify-run
+git add specify-run && git commit -m "Upgrade specify-run script"
+```
+
+> After upgrading the script, delete `.venv/` to ensure a clean reinstall.
+
 ---
 
 ## Reproducibility guarantees
