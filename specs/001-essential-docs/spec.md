@@ -5,6 +5,12 @@
 **Status**: Draft
 **Input**: User description: "Create essential documents for this project covering what, how, why, hardening, integrations, upgrades, and usage scenarios"
 
+## Clarifications
+
+### Session 2026-01-15
+
+- Q: Where should Claude Code integration instructions for adopting projects be documented? → A: README.md only (show users what to add to their project's CLAUDE.md)
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - First-Time Adopter Onboarding (Priority: P1)
@@ -152,8 +158,8 @@ verifying the new version is active and rollback works.
 ### Key Entities
 
 - **README.md**: Primary documentation file in repository root; serves as the
-  main entry point for all documentation topics.
-- **CLAUDE.md**: Agent-specific guidance file for Claude Code integration.
+  main entry point for all documentation topics, including Claude Code
+  integration instructions that adopters add to their own project's CLAUDE.md.
 
 ## Success Criteria *(mandatory)*
 
@@ -167,7 +173,7 @@ verifying the new version is active and rollback works.
 - **SC-004**: GitHub Actions example works when copy-pasted without modification.
 - **SC-005**: Claude Code integration instructions result in correct agent
   behavior on first configuration attempt.
-- **SC-006**: Documentation fits in README.md plus CLAUDE.md (no additional files
+- **SC-006**: Documentation fits in README.md only (no additional files
   required for core topics).
 
 ## Assumptions
