@@ -16,29 +16,29 @@ implementation and testing of each story.
 
 ## Path Conventions
 
-- **Primary deliverable**: README.md at repository root
+- **Deliverables**: README.md, SECURITY.md, INTEGRATION.md at repository root
 - **Validation guide**: specs/001-essential-docs/quickstart.md
 
 ---
 
 ## Phase 1: Setup
 
-**Purpose**: Review existing documentation and prepare for enhancements
+**Purpose**: Review existing documentation and prepare for 3-file structure
 
-- [ ] T001 Review existing README.md structure and identify insertion points
-- [ ] T002 Review research.md gap analysis for required additions
+- [ ] T001 Review existing README.md structure and identify content to migrate
+- [ ] T002 Review research.md content migration plan
 
-**Checkpoint**: Ready to begin content enhancements
+**Checkpoint**: Ready to begin content refactoring
 
 ---
 
 ## Phase 2: User Story 1 - First-Time Adopter Onboarding (Priority: P1)
 
 **Goal**: Ensure developers understand what specify-run is, why they need it,
-and how to install it within 10 minutes.
+and how to install it within 10 minutes using README.md only.
 
-**Independent Test**: Give docs to unfamiliar developer, measure time to first
-successful SpecKit run.
+**Independent Test**: Give README.md to unfamiliar developer, measure time to
+first successful SpecKit run.
 
 ### Implementation for User Story 1
 
@@ -47,6 +47,9 @@ successful SpecKit run.
 - [ ] T005 [US1] Verify "Why this exists" section covers global install problems in README.md
 - [ ] T006 [US1] Add "Why a virtualenv?" section explaining isolation benefits in README.md
 - [ ] T007 [US1] Add "Why commit this script?" section with rationale in README.md
+- [ ] T008 [US1] Add links to SECURITY.md and INTEGRATION.md in README.md
+- [ ] T009 [US1] Remove security content from README.md (will move to SECURITY.md)
+- [ ] T010 [US1] Remove CI/agent content from README.md (will move to INTEGRATION.md)
 
 **Checkpoint**: First-time adopter can understand and install in <10 minutes
 
@@ -55,15 +58,18 @@ successful SpecKit run.
 ## Phase 3: User Story 2 - Security-Conscious Reviewer (Priority: P2)
 
 **Goal**: Security reviewers can identify hardening properties and understand
-threat mitigations.
+threat mitigations from SECURITY.md.
 
 **Independent Test**: Security reviewer lists 3+ security properties after reading.
 
 ### Implementation for User Story 2
 
-- [ ] T008 [US2] Verify "Security model" section lists explicit properties in README.md
-- [ ] T009 [US2] Add concrete attack examples prevented by this design in README.md
-- [ ] T010 [US2] Verify supply-chain protection documentation in README.md
+- [ ] T011 [P] [US2] Create SECURITY.md with header and introduction
+- [ ] T012 [US2] Add threat model section to SECURITY.md
+- [ ] T013 [US2] Add hardening properties section to SECURITY.md
+- [ ] T014 [US2] Add supply-chain protection section to SECURITY.md
+- [ ] T015 [US2] Add concrete attack examples prevented to SECURITY.md
+- [ ] T016 [US2] Add version pinning security benefits to SECURITY.md
 
 **Checkpoint**: Security reviewer can identify 3+ hardening properties
 
@@ -71,15 +77,17 @@ threat mitigations.
 
 ## Phase 4: User Story 3 - CI/CD Integration (Priority: P2)
 
-**Goal**: DevOps engineers can copy-paste GitHub Actions example that works
-immediately.
+**Goal**: DevOps engineers can copy-paste GitHub Actions example from
+INTEGRATION.md that works immediately.
 
 **Independent Test**: Copy example to workflow, verify pipeline succeeds.
 
 ### Implementation for User Story 3
 
-- [ ] T011 [US3] Verify GitHub Actions example is complete and correct in README.md
-- [ ] T012 [US3] Add CI troubleshooting tips (Python version, permissions) in README.md
+- [ ] T017 [P] [US3] Create INTEGRATION.md with header and introduction
+- [ ] T018 [US3] Add GitHub Actions section with complete workflow example to INTEGRATION.md
+- [ ] T019 [US3] Add other CI systems section (generic guidance) to INTEGRATION.md
+- [ ] T020 [US3] Add CI troubleshooting section to INTEGRATION.md
 
 **Checkpoint**: GitHub Actions example works when copy-pasted
 
@@ -88,16 +96,16 @@ immediately.
 ## Phase 5: User Story 4 - Claude Code Integration (Priority: P2)
 
 **Goal**: Teams using Claude Code can configure their agent correctly with
-copy-paste instructions.
+copy-paste CLAUDE.md snippet from INTEGRATION.md.
 
 **Independent Test**: Follow instructions, verify agent uses ./specify-run
 exclusively.
 
 ### Implementation for User Story 4
 
-- [ ] T013 [US4] Enhance "Editor / AI agent integration" section in README.md
-- [ ] T014 [US4] Add complete CLAUDE.md snippet that adopters can copy in README.md
-- [ ] T015 [US4] Add anti-patterns section (what agents must NOT do) in README.md
+- [ ] T021 [US4] Add Claude Code integration section to INTEGRATION.md
+- [ ] T022 [US4] Add complete CLAUDE.md snippet for adopters to INTEGRATION.md
+- [ ] T023 [US4] Add anti-patterns section (what agents must NOT do) to INTEGRATION.md
 
 **Checkpoint**: Claude Code integration works on first configuration attempt
 
@@ -106,16 +114,16 @@ exclusively.
 ## Phase 6: User Story 5 - Version Upgrade Workflow (Priority: P3)
 
 **Goal**: Maintainers can safely upgrade SpecKit and the script itself with
-clear procedures.
+clear procedures in README.md.
 
 **Independent Test**: Follow upgrade instructions, verify new version active,
 rollback in <2 minutes.
 
 ### Implementation for User Story 5
 
-- [ ] T016 [US5] Verify SpecKit upgrade procedure is clear in README.md
-- [ ] T017 [US5] Add "Upgrading the specify-run script" section in README.md
-- [ ] T018 [US5] Add rollback procedure documentation in README.md
+- [ ] T024 [US5] Verify SpecKit upgrade procedure is clear in README.md
+- [ ] T025 [US5] Add "Upgrading the specify-run script" section in README.md
+- [ ] T026 [US5] Add rollback procedure documentation in README.md
 
 **Checkpoint**: Upgrade and rollback procedures work as documented
 
@@ -125,10 +133,12 @@ rollback in <2 minutes.
 
 **Purpose**: Final review and validation against acceptance criteria
 
-- [ ] T019 Review full README.md for consistency and flow
-- [ ] T020 Verify all 12 required topics are covered per research.md checklist
-- [ ] T021 Run quickstart.md validation checklist
-- [ ] T022 Fix typo in README.md title ("sefety" → "safety")
+- [ ] T027 Review README.md for consistency and flow
+- [ ] T028 Review SECURITY.md for completeness
+- [ ] T029 Review INTEGRATION.md for completeness
+- [ ] T030 Verify all 12 required topics are covered across 3 files
+- [ ] T031 Run quickstart.md validation checklist
+- [ ] T032 Fix typo in README.md title ("sefety" → "safety")
 
 ---
 
@@ -137,29 +147,38 @@ rollback in <2 minutes.
 ### Phase Dependencies
 
 - **Setup (Phase 1)**: No dependencies - can start immediately
-- **User Stories (Phases 2-6)**: Can start after Setup
-  - Stories can proceed in parallel (different sections of README.md)
-  - Or sequentially in priority order (P1 → P2 → P3)
+- **User Story 1 (Phase 2)**: Depends on Setup; refactors README.md
+- **User Stories 2-4 (Phases 3-5)**: Can start in parallel after US1 extracts content
+  - US2 creates SECURITY.md (new file)
+  - US3-4 create INTEGRATION.md (new file)
+- **User Story 5 (Phase 6)**: Independent, modifies README.md
 - **Polish (Phase 7)**: Depends on all user stories being complete
 
 ### User Story Dependencies
 
-- **User Story 1 (P1)**: No dependencies - core onboarding content
-- **User Story 2 (P2)**: Independent - security section
-- **User Story 3 (P2)**: Independent - CI section
-- **User Story 4 (P2)**: Independent - agent integration section
-- **User Story 5 (P3)**: Independent - upgrade procedures section
+- **User Story 1 (P1)**: Foundation - must complete first (extracts content)
+- **User Story 2 (P2)**: Creates SECURITY.md - can start after T009 removes security from README
+- **User Story 3 (P2)**: Creates INTEGRATION.md - can start after T010 removes CI from README
+- **User Story 4 (P2)**: Extends INTEGRATION.md - depends on T017 creating the file
+- **User Story 5 (P3)**: Independent - modifies README.md upgrade sections
 
 ### Parallel Opportunities
 
-All user story phases can be worked on in parallel since they modify
-different sections of README.md:
+After US1 completes content extraction:
+- US2 (SECURITY.md) and US3 (INTEGRATION.md) can run in parallel (different files)
+- US4 depends on US3 creating INTEGRATION.md
+- US5 can run in parallel with US2-4 (different file sections)
 
-- US1: Overview, virtualenv, commit rationale sections
-- US2: Security model section
-- US3: CI usage section
-- US4: Editor/AI agent integration section
-- US5: Upgrade sections
+---
+
+## Parallel Example: After User Story 1
+
+```bash
+# After T010 completes, launch in parallel:
+Task: "Create SECURITY.md with header and introduction" (T011)
+Task: "Create INTEGRATION.md with header and introduction" (T017)
+Task: "Verify SpecKit upgrade procedure is clear in README.md" (T024)
+```
 
 ---
 
@@ -168,24 +187,26 @@ different sections of README.md:
 ### MVP First (User Story 1 Only)
 
 1. Complete Phase 1: Setup
-2. Complete Phase 2: User Story 1
+2. Complete Phase 2: User Story 1 (refactor README.md)
 3. **STOP and VALIDATE**: Can a new user install in <10 minutes?
 4. Commit MVP documentation
 
 ### Incremental Delivery
 
-1. User Story 1 → Core onboarding works
-2. User Story 2 → Security approval unblocked
-3. User Story 3 → CI integration ready
-4. User Story 4 → AI agent integration ready
-5. User Story 5 → Maintenance procedures documented
-6. Polish → Full validation complete
+1. User Story 1 → Core onboarding works, content extracted
+2. User Story 2 → SECURITY.md created, security approval unblocked
+3. User Story 3 → INTEGRATION.md created, CI ready
+4. User Story 4 → Claude Code section added to INTEGRATION.md
+5. User Story 5 → Upgrade procedures documented in README.md
+6. Polish → Full validation across all 3 files
 
 ---
 
 ## Notes
 
-- All tasks modify README.md at repository root
-- No code changes required
+- US1 modifies README.md and extracts content for other files
+- US2 creates new file: SECURITY.md
+- US3-4 create/extend new file: INTEGRATION.md
+- US5 modifies README.md (upgrade sections)
 - Validation is manual (use quickstart.md checklist)
 - Commit after each user story phase for incremental progress
