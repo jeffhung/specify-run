@@ -103,7 +103,7 @@ exclusively.
 
 ### Implementation for User Story 4
 
-- [ ] T021 [US4] Add Claude Code integration section to INTEGRATION.md
+- [x] T021 [US4] Add Claude Code integration section to INTEGRATION.md
 - [ ] T022 [US4] Add complete CLAUDE.md snippet for adopters to INTEGRATION.md
 - [ ] T023 [US4] Add anti-patterns section (what agents must NOT do) to INTEGRATION.md
 

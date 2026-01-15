@@ -177,3 +177,26 @@ rm -rf .venv
 ```
 
 In CI, ensure cache key includes the script hash to auto-invalidate.
+
+---
+
+## Claude Code Integration
+
+Claude Code (and similar AI coding agents) must be explicitly instructed to use
+`./specify-run` instead of inferring tooling.
+
+### Why explicit instructions matter
+
+AI agents may:
+
+* Guess that `speckit` is a global command
+* Try to install packages directly with pip
+* Activate virtualenvs manually
+
+All of these break the deterministic execution model. Explicit instructions
+prevent these issues.
+
+### Setup
+
+Create or update `.claude/CLAUDE.md` in your repository with instructions for
+the agent. See the next section for a complete snippet.
