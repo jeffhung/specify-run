@@ -42,7 +42,7 @@ first successful SpecKit run.
 
 ### Implementation for User Story 1
 
-- [ ] T003 [US1] Verify "What is specify-run" paragraph is clear in README.md
+- [x] T003 [US1] Verify "What is specify-run" paragraph is clear in README.md
 - [ ] T004 [US1] Verify "How it works" section explains bootstrap flow in README.md
 - [ ] T005 [US1] Verify "Why this exists" section covers global install problems in README.md
 - [ ] T006 [US1] Add "Why a virtualenv?" section explaining isolation benefits in README.md
