@@ -48,3 +48,9 @@ SPECKIT_REF="v0.0.90"
 ```
 
 To upgrade: edit `SPECKIT_REF` and commit. Next run auto-upgrades.
+
+## Active Technologies
+- Markdown (documentation only) + None (pure documentation) (001-essential-docs)
+
+## Recent Changes
+- 001-essential-docs: Added Markdown (documentation only) + None (pure documentation)
