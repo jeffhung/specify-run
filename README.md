@@ -167,6 +167,22 @@ The script creates a project-local `.venv/` directory because:
 
 ---
 
+## Why commit this script?
+
+Commit the `specify-run` script to your repository. Do **not** commit `.venv/`.
+
+Benefits of committing the script:
+
+* **Team consistency**: All developers use the exact same bootstrap logic
+* **Code review**: Changes to tooling are visible in pull requests
+* **CI simplicity**: No external download step required during builds
+* **Auditability**: Full history of when and why the script changed
+* **No network dependency**: Works offline after initial clone
+
+> The script is intentionally simple and readable. Review it before adopting.
+
+---
+
 ## Security model
 
 This design intentionally avoids:
