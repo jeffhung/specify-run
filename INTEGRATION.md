@@ -200,3 +200,41 @@ prevent these issues.
 
 Create or update `.claude/CLAUDE.md` in your repository with instructions for
 the agent. See the next section for a complete snippet.
+
+### CLAUDE.md snippet
+
+Copy this into your `.claude/CLAUDE.md` file:
+
+````markdown
+# SpecKit Usage
+
+This repository uses `specify-run` for deterministic SpecKit execution.
+
+## Mandatory rules
+
+1. **Always use `./specify-run`** to run SpecKit commands
+2. **Never run `speckit` directly** - there is no global installation
+3. **Never run `pip install speckit`** - the script handles installation
+4. **Never activate `.venv/` manually** - the script handles this
+
+## Examples
+
+```bash
+# Correct
+./specify-run
+./specify-run init
+./specify-run <subcommand>
+
+# Incorrect - DO NOT DO THIS
+speckit
+pip install speckit
+source .venv/bin/activate && speckit
+```
+
+## Why
+
+The `specify-run` script ensures:
+- Pinned SpecKit version (reproducible builds)
+- No global dependencies (isolated environment)
+- Consistent behavior across all machines
+````
