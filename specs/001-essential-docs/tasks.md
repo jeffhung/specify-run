@@ -44,7 +44,7 @@ first successful SpecKit run.
 
 - [x] T003 [US1] Verify "What is specify-run" paragraph is clear in README.md
 - [x] T004 [US1] Verify "How it works" section explains bootstrap flow in README.md
-- [ ] T005 [US1] Verify "Why this exists" section covers global install problems in README.md
+- [x] T005 [US1] Verify "Why this exists" section covers global install problems in README.md
 - [ ] T006 [US1] Add "Why a virtualenv?" section explaining isolation benefits in README.md
 - [ ] T007 [US1] Add "Why commit this script?" section with rationale in README.md
 - [ ] T008 [US1] Add links to SECURITY.md and INTEGRATION.md in README.md
