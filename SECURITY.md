@@ -122,3 +122,24 @@ occurs.
 
 **With specify-run**: Version change requires editing `SPECKIT_REF` and passing
 code review. Team is aware of every version change.
+
+---
+
+## Version Pinning Security Benefits
+
+The `SPECKIT_REF` variable in the script provides:
+
+| Benefit | Description |
+|---------|-------------|
+| Immutability | Once committed, the version cannot change without a new commit |
+| Traceability | `git blame` shows who changed the version and when |
+| Rollback | Revert to previous version with `git revert` |
+| Review gate | Version changes go through normal PR review process |
+| Incident response | If vulnerability found, `git log` shows which commits are affected |
+
+### Recommended practices
+
+1. **Use tags for readability**: `SPECKIT_REF="v0.3.2"`
+2. **Pin to SHA for critical systems**: `SPECKIT_REF="a1b2c3d4..."`
+3. **Document version changes**: Include reason in commit message
+4. **Subscribe to upstream releases**: Monitor for security advisories
