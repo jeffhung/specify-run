@@ -186,28 +186,6 @@ Benefits of committing the script:
 
 ---
 
-## Security model
-
-This design intentionally avoids:
-
-* global binaries
-* hidden PATH resolution
-* invisible upgrades
-
-Security properties:
-
-* SpecKit source is pinned and reviewable
-* Upgrades are explicit git diffs
-* Tooling behavior is deterministic
-* Tampering is visible in version control
-
-For higher security:
-
-* pin to a commit SHA instead of a tag
-* vendor SpecKit instead of installing from Git
-
----
-
 ## CI usage
 
 Example (GitHub Actions):

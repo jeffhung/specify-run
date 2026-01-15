@@ -48,7 +48,7 @@ first successful SpecKit run.
 - [x] T006 [US1] Add "Why a virtualenv?" section explaining isolation benefits in README.md
 - [x] T007 [US1] Add "Why commit this script?" section with rationale in README.md
 - [x] T008 [US1] Add links to SECURITY.md and INTEGRATION.md in README.md
-- [ ] T009 [US1] Remove security content from README.md (will move to SECURITY.md)
+- [x] T009 [US1] Remove security content from README.md (will move to SECURITY.md)
 - [ ] T010 [US1] Remove CI/agent content from README.md (will move to INTEGRATION.md)
 
 **Checkpoint**: First-time adopter can understand and install in <10 minutes
