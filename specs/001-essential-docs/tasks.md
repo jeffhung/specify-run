@@ -67,7 +67,7 @@ threat mitigations from SECURITY.md.
 - [x] T011 [P] [US2] Create SECURITY.md with header and introduction
 - [x] T012 [US2] Add threat model section to SECURITY.md
 - [x] T013 [US2] Add hardening properties section to SECURITY.md
-- [ ] T014 [US2] Add supply-chain protection section to SECURITY.md
+- [x] T014 [US2] Add supply-chain protection section to SECURITY.md
 - [ ] T015 [US2] Add concrete attack examples prevented to SECURITY.md
 - [ ] T016 [US2] Add version pinning security benefits to SECURITY.md
 

@@ -57,3 +57,35 @@ Security reviewers can verify these properties by:
 1. Reading the script source (single file, <200 lines)
 2. Checking `SPECKIT_REF` value against known-good versions
 3. Reviewing git history for script changes
+
+---
+
+## Supply-Chain Protection
+
+### How specify-run reduces supply-chain risk
+
+Traditional global CLI installation:
+
+```text
+pip install speckit        # Pulls from PyPI
+                           # Version may change silently
+                           # No visibility into what was installed
+```
+
+With specify-run:
+
+```text
+SPECKIT_REF="v0.3.2"       # Explicit version in committed script
+                           # Installed from Git, not package registry
+                           # Change requires pull request review
+```
+
+### Hardening options
+
+For higher security environments:
+
+| Option | How | Trade-off |
+|--------|-----|-----------|
+| Pin to SHA | `SPECKIT_REF="abc123..."` | Immune to tag mutation; harder to read |
+| Vendor dependencies | Copy SpecKit source into repo | Full control; maintenance burden |
+| Private mirror | Host internal Git mirror | Air-gapped; infrastructure overhead |
