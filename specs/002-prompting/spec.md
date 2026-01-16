@@ -59,7 +59,41 @@ upgrade prompt appears before any package installation occurs.
 
 ---
 
-### User Story 3 - Delegated Execution Without Prompting (Priority: P3)
+### User Story 3 - AI Agent Invocation (Priority: P2)
+
+An AI agent (e.g., Claude Code) invokes `./specify-run` programmatically. The
+agent sets `SPECIFYRUN_BY_AGENT=1` to enable agentic mode. If a prompt requires
+user consent, the script displays the prompt with a hint showing the answer key
+(e.g., "Append `bootstrap=y` to SPECIFYRUN_ANSWERS to proceed"), then aborts.
+The agent can retry with `SPECIFYRUN_ANSWERS="bootstrap=y"` to proceed.
+
+**Why this priority**: AI agents are first-class users per Principle V. They
+need a non-interactive mechanism that still respects user consent (the human
+behind the agent controls when to set the answer).
+
+**Independent Test**: Run `SPECIFYRUN_BY_AGENT=1 ./specify-run` without
+`.venv/`; verify script prints prompt with answer key hint and exits. Then run
+`SPECIFYRUN_BY_AGENT=1 SPECIFYRUN_ANSWERS="bootstrap=y" ./specify-run`; verify
+it proceeds with installation.
+
+**Acceptance Scenarios**:
+
+1. **Given** `SPECIFYRUN_BY_AGENT=1` is set and `.venv/` does not exist,
+   **When** the agent runs `./specify-run` without `SPECIFYRUN_ANSWERS`,
+   **Then** the script displays the prompt, prints hint with answer key, and
+   exits without making changes.
+
+2. **Given** `SPECIFYRUN_BY_AGENT=1` and `SPECIFYRUN_ANSWERS="bootstrap=y"` are
+   set, **When** the agent runs `./specify-run`, **Then** the script proceeds
+   with the action matching the provided answer.
+
+3. **Given** `SPECIFYRUN_BY_AGENT=1` is set with wrong answer key in
+   `SPECIFYRUN_ANSWERS`, **When** the agent runs `./specify-run`, **Then** the
+   script ignores the unrecognized key and prompts as if no answer was provided.
+
+---
+
+### User Story 4 - Delegated Execution Without Prompting (Priority: P3)
 
 After the environment is set up, running `./specify-run <command>` delegates to
 SpecKit. The wrapper script makes no modifications and therefore shows no
@@ -107,6 +141,23 @@ no `specify-run` prompts appear (only SpecKit's own prompts if any).
   for non-interactive environments (CI, automation).
 - **FR-007**: The script MUST detect non-interactive terminals and exit with
   an error message indicating `--yes` is required.
+- **FR-008**: The script MUST support agentic mode when `SPECIFYRUN_BY_AGENT=1`
+  environment variable is set.
+- **FR-009**: In agentic mode, when a prompt is needed and no matching answer
+  exists in `SPECIFYRUN_ANSWERS`, the script MUST display the prompt, print a
+  hint with the answer key (e.g., "Append `bootstrap=y` to SPECIFYRUN_ANSWERS
+  environment variable to proceed."), and exit without making changes.
+- **FR-010**: In agentic mode, when `SPECIFYRUN_ANSWERS` contains a matching
+  key=value pair for the current prompt, the script MUST use that value as the
+  user's response and proceed accordingly.
+- **FR-011**: The script MUST use consistent, predictable prompt keys (e.g.,
+  `bootstrap`, `upgrade`) that agents can rely on across invocations.
+- **FR-012**: The script MUST exit with code 130 (SIGINT) when the user
+  explicitly declines a prompt.
+- **FR-013**: The script MUST exit with code 75 (EX_TEMPFAIL) when no answer is
+  provided (timeout or agentic mode without matching answer).
+- **FR-014**: The script MUST exit with code 78 (EX_CONFIG) when non-interactive
+  or agentic mode encounters a prompt without authorization to proceed.
 
 ### Key Entities
 
@@ -126,6 +177,8 @@ no `specify-run` prompts appear (only SpecKit's own prompts if any).
   interactive prompts.
 - **SC-004**: Users can decline any modification and exit cleanly with no
   partial changes.
+- **SC-005**: AI agents can complete bootstrap/upgrade workflows using only
+  environment variables without interactive terminal input.
 
 ## Assumptions
 
@@ -135,3 +188,20 @@ no `specify-run` prompts appear (only SpecKit's own prompts if any).
   in bash).
 - The `--yes` flag is consistent with common CLI conventions for bypassing
   prompts.
+
+## Clarifications
+
+### Session 2026-01-16
+
+- Q: How should AI agents interact with prompts? → A: Agentic mode via
+  environment variables. `SPECIFYRUN_BY_AGENT=1` enables agentic mode.
+  `SPECIFYRUN_ANSWERS="prompt1=y,prompt2=n"` provides pre-supplied answers.
+  Script prints prompt keys (e.g., "Append `action=y` to SPECIFYRUN_ANSWERS
+  environment variable to proceed.") so agents know what keys to use.
+- Q: Should script auto-detect AI agent environment? → A: No auto-detection.
+  Require explicit `SPECIFYRUN_BY_AGENT=1`. Documentation/CLAUDE.md should
+  instruct AI agents to set this variable.
+- Q: What exit codes for different prompt outcomes? → A: Exit 130 (SIGINT) when
+  user declines. Exit 75 (EX_TEMPFAIL) when no answer provided (timeout/agent
+  without answer). Exit 78 (EX_CONFIG) when non-interactive/agentic mode hits
+  prompt without authorization to proceed.
