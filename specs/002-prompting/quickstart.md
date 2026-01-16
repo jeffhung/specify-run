@@ -54,16 +54,16 @@ Proceed? [Y/n]: y
 
 ## CI/Automation Usage
 
-Use `--yes` flag to skip prompts:
+Use `SPECIFYRUN_ANSWERS` to skip prompts:
 
 ```bash
-./specify-run --yes
+SPECIFYRUN_ANSWERS="bootstrap=y" ./specify-run
 ```
 
 Or with subcommand:
 
 ```bash
-./specify-run --yes init
+SPECIFYRUN_ANSWERS="bootstrap=y" ./specify-run init
 ```
 
 ## AI Agent Usage (Agentic Mode)
@@ -114,7 +114,7 @@ SPECIFYRUN_ANSWERS="bootstrap=y,upgrade=y"
 |------|---------|--------------|
 | 0 | Success | Continue |
 | 75 | Answer required | Retry with `SPECIFYRUN_ANSWERS` |
-| 78 | Config error (non-interactive without --yes) | Add `--yes` or set env vars |
+| 78 | Config error (non-interactive without answers) | Set `SPECIFYRUN_ANSWERS` |
 | 130 | User declined | Stop, report to user |
 
 ## Environment Variables

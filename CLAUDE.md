@@ -49,6 +49,33 @@ SPECKIT_REF="v0.0.90"
 
 To upgrade: edit `SPECKIT_REF` and commit. Next run auto-upgrades.
 
+## Agentic Mode
+
+When invoking `./specify-run` as an AI agent, set these environment variables:
+
+```bash
+SPECIFYRUN_BY_AGENT=1 ./specify-run
+```
+
+If a prompt requires consent, the script prints a hint and exits with code 75:
+```
+[specify-run] About to create .venv/ and install SpecKit v0.0.90
+Append `bootstrap=y` to SPECIFYRUN_ANSWERS environment variable to proceed.
+```
+
+Retry with the answer:
+```bash
+SPECIFYRUN_BY_AGENT=1 SPECIFYRUN_ANSWERS="bootstrap=y" ./specify-run
+```
+
+For multiple prompts, combine answers: `SPECIFYRUN_ANSWERS="bootstrap=y,upgrade=y"`
+
+Exit codes:
+- 0: Success
+- 75: Retry needed (provide answer via `SPECIFYRUN_ANSWERS`)
+- 78: Configuration error (non-interactive without answers)
+- 130: User declined
+
 ## Active Technologies
 - Markdown (documentation only) + None (pure documentation) (001-essential-docs)
 - Bash (POSIX-compatible with bashisms) + None (self-contained script) (002-prompting)

@@ -121,6 +121,14 @@ PIP="$VENV/bin/pip"
 # ---------------------------------------------------------------------------
 
 if [[ ! -f "$STAMP" ]]; then
+  OLD_REF=""
+  for f in "$VENV"/.speckit-installed-*; do
+    [[ -f "$f" ]] && OLD_REF="${f##*-installed-}" && break
+  done
+  if [[ -n "$OLD_REF" ]]; then
+    prompt_user "upgrade" "About to upgrade SpecKit from $OLD_REF to $SPECKIT_REF"
+    rm -f "$VENV"/.speckit-installed-*
+  fi
   info "Installing SpecKit ($SPECKIT_REF)"
   "$PIP" install --upgrade \
     "git+$SPECKIT_GIT@$SPECKIT_REF"

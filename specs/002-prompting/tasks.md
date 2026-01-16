@@ -75,11 +75,11 @@ prompt appears before pip install.
 
 ### Implementation for User Story 2
 
-- [ ] T015 [US2] Add upgrade prompt before `pip install` when stamp mismatches in specify-run
-- [ ] T016 [US2] Display old and new version in upgrade prompt in specify-run
-- [ ] T017 [US2] Implement SPECIFYRUN_ANSWERS bypass for upgrade prompt in specify-run
-- [ ] T018 [US2] Implement agentic mode with `upgrade` key hint in specify-run
-- [ ] T019 [US2] Handle exit codes (130/75/78) for upgrade prompt in specify-run
+- [x] T015 [US2] Add upgrade prompt before `pip install` when stamp mismatches in specify-run
+- [x] T016 [US2] Display old and new version in upgrade prompt in specify-run
+- [x] T017 [US2] Implement SPECIFYRUN_ANSWERS bypass for upgrade prompt in specify-run
+- [x] T018 [US2] Implement agentic mode with `upgrade` key hint in specify-run
+- [x] T019 [US2] Handle exit codes (130/75/78) for upgrade prompt in specify-run
 
 **Checkpoint**: Upgrade prompting fully functional
 
@@ -94,10 +94,10 @@ exit 75. Retry with `SPECIFYRUN_ANSWERS="bootstrap=y"`; verify proceeds.
 
 ### Implementation for User Story 3
 
-- [ ] T020 [US3] Print answer key hint format in agentic mode in specify-run
-- [ ] T021 [US3] Look up answer from SPECIFYRUN_ANSWERS before prompting in specify-run
-- [ ] T022 [US3] Proceed automatically if matching answer found in specify-run
-- [ ] T023 [US3] Ignore unrecognized keys silently in specify-run
+- [x] T020 [US3] Print answer key hint format in agentic mode in specify-run
+- [x] T021 [US3] Look up answer from SPECIFYRUN_ANSWERS before prompting in specify-run
+- [x] T022 [US3] Proceed automatically if matching answer found in specify-run
+- [x] T023 [US3] Ignore unrecognized keys silently in specify-run
 
 **Checkpoint**: Agentic mode fully functional
 
@@ -112,8 +112,8 @@ from specify-run (only SpecKit's prompts if any).
 
 ### Implementation for User Story 4
 
-- [ ] T024 [US4] Skip all prompts when `.venv/` exists and stamp matches in specify-run
-- [ ] T025 [US4] Ensure `exec "$SPECIFY" "$@"` happens without modification in specify-run
+- [x] T024 [US4] Skip all prompts when `.venv/` exists and stamp matches in specify-run
+- [x] T025 [US4] Ensure `exec "$SPECIFY" "$@"` happens without modification in specify-run
 
 **Checkpoint**: Delegated execution works without interference
 
@@ -123,10 +123,10 @@ from specify-run (only SpecKit's prompts if any).
 
 **Purpose**: Documentation and final validation
 
-- [ ] T026 Update CLAUDE.md with SPECIFYRUN_BY_AGENT instructions
-- [ ] T027 Update README.md with prompting behavior documentation
-- [ ] T028 Run quickstart.md validation scenarios manually
-- [ ] T029 Verify all exit codes match specification (0, 75, 78, 130)
+- [x] T026 Update CLAUDE.md with SPECIFYRUN_BY_AGENT instructions
+- [x] T027 Update README.md with prompting behavior documentation
+- [x] T028 Run quickstart.md validation scenarios manually
+- [x] T029 Verify all exit codes match specification (0, 75, 78, 130)
 
 ---
 

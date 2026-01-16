@@ -269,6 +269,42 @@ rm -rf .venv
 
 ---
 
+## Prompting behavior
+
+The script prompts for consent before modifying the filesystem:
+
+| Scenario | Prompt shown |
+| -------- | ------------ |
+| First run (no `.venv/`) | "About to create .venv/ and install SpecKit" |
+| Version upgrade | "About to upgrade SpecKit from X to Y" |
+| Already set up | No prompt (pass-through to SpecKit) |
+
+### Non-interactive mode (CI)
+
+Provide pre-authorized answers via environment variable:
+
+```bash
+SPECIFYRUN_ANSWERS="bootstrap=y" ./specify-run
+```
+
+### Agentic mode (AI agents)
+
+AI agents should set `SPECIFYRUN_BY_AGENT=1`. If consent is needed, the script
+prints a hint and exits with code 75:
+
+```bash
+SPECIFYRUN_BY_AGENT=1 ./specify-run
+# Output: Append `bootstrap=y` to SPECIFYRUN_ANSWERS environment variable to proceed.
+# Exit code: 75
+
+SPECIFYRUN_BY_AGENT=1 SPECIFYRUN_ANSWERS="bootstrap=y" ./specify-run
+# Proceeds with installation
+```
+
+Exit codes: 0 (success), 75 (retry with answer), 78 (config error), 130 (declined)
+
+---
+
 ## Design principles (for maintainers)
 
 * **Entry point > environment**
