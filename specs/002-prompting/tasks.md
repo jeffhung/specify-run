@@ -55,7 +55,7 @@ prompt appears before any directory creation.
 
 ### Implementation for User Story 1
 
-- [ ] T009 [US1] Add bootstrap prompt before `python -m venv` call in specify-run
+- [x] T009 [US1] Add bootstrap prompt before `python -m venv` call in specify-run
 - [ ] T010 [US1] Implement interactive mode: read y/n, proceed or exit 130 in specify-run
 - [ ] T011 [US1] Implement SPECIFYRUN_ANSWERS bypass for bootstrap prompt in specify-run
 - [ ] T012 [US1] Implement agentic mode with `bootstrap` key hint in specify-run
