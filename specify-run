@@ -109,6 +109,7 @@ configure_gitignore() {
   if [[ -f "$gitignore" ]] && grep -q "$GITIGNORE_MARKER" "$gitignore"; then
     return 0
   fi
+  prompt_user "gitignore" "About to configure .gitignore with SpecKit patterns"
   local block
   block="
 $GITIGNORE_MARKER
