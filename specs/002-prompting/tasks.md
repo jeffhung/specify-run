@@ -37,7 +37,7 @@
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Implement `prompt_user()` to display message and read y/n in specify-run
+- [x] T005 Implement `prompt_user()` to display message and read y/n in specify-run
 - [ ] T006 Implement `parse_answers()` to extract key=value pairs in specify-run
 - [ ] T007 Add `--yes`/`-y` flag detection at script start in specify-run
 - [ ] T008 Add `SPECIFYRUN_BY_AGENT` environment variable detection in specify-run

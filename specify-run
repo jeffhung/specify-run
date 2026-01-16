@@ -48,7 +48,19 @@ info() {
 }
 
 prompt_user() {
-  :
+  local key="$1"
+  local message="$2"
+  local response
+  echo "[specify-run] $message"
+  if is_interactive; then
+    read -r -p "Proceed? [Y/n]: " response
+    case "${response:-y}" in
+      [Yy]*) return 0 ;;
+      *) exit 130 ;;
+    esac
+  else
+    exit "$EX_CONFIG"
+  fi
 }
 
 get_answer() {
