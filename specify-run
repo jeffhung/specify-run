@@ -51,6 +51,22 @@ prompt_user() {
   :
 }
 
+get_answer() {
+  local key="$1"
+  local answers="${SPECIFYRUN_ANSWERS:-}"
+  [[ -z "$answers" ]] && return 1
+  local IFS=','
+  for pair in $answers; do
+    local k="${pair%%=*}"
+    local v="${pair#*=}"
+    if [[ "$k" == "$key" ]]; then
+      echo "$v"
+      return 0
+    fi
+  done
+  return 1
+}
+
 # ---------------------------------------------------------------------------
 # Sanity checks
 # ---------------------------------------------------------------------------
