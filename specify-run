@@ -135,6 +135,7 @@ if [[ ! -d "$VENV" ]]; then
   prompt_user "bootstrap" "About to create .venv/ and install SpecKit $SPECKIT_REF"
   info "Creating virtualenv at .venv"
   "$PYTHON" -m venv "$VENV"
+  is_git_repo && configure_gitignore
 fi
 
 SPECIFY="$VENV/bin/specify"
