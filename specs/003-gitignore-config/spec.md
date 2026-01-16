@@ -8,6 +8,25 @@ and script files are NOT ignored. And to ensure SpecKit cache, tmp, logs, and
 runtime are ignored. The virtualenv folder should be ignored. And SpecKit version
 should be versioned."
 
+## Clarifications
+
+### Session 2026-01-16
+
+- Q: How should version-controlled files be protected from broader gitignore patterns? → A: Use negation patterns (`!path`) to explicitly un-ignore SpecKit directories.
+
+**Reference gitignore entries:**
+```
+!.specify/
+!.specify/scripts/**
+!.specify/templates/**
+!.specify/memory/**
+
+.specify/cache/
+.specify/tmp/
+.specify/logs/
+.specify/.runtime/
+```
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Bootstrap Creates Proper Gitignore (Priority: P1)
@@ -49,13 +68,13 @@ defeats the purpose of the tool.
 
 **Acceptance Scenarios**:
 
-1. **Given** a bootstrapped repository, **When** user creates a file in
-   `.specify/memory/`, **Then** `git status` shows the file as untracked (not
-   ignored).
+1. **Given** a bootstrapped repository with broad ignore patterns, **When** user
+   creates a file in `.specify/memory/`, **Then** `git status` shows the file as
+   untracked because negation pattern `!.specify/memory/**` overrides.
 2. **Given** a bootstrapped repository, **When** user creates a file in
-   `.specify/templates/`, **Then** the file is trackable by git.
+   `.specify/templates/`, **Then** the file is trackable due to negation pattern.
 3. **Given** a bootstrapped repository, **When** user creates a file in
-   `.specify/scripts/`, **Then** the file is trackable by git.
+   `.specify/scripts/`, **Then** the file is trackable due to negation pattern.
 
 ---
 
@@ -129,16 +148,16 @@ in `.gitignore`.
   (`.specify/tmp/`).
 - **FR-007**: System MUST add patterns to ignore SpecKit log files
   (`.specify/logs/`).
-- **FR-008**: System MUST add patterns to ignore SpecKit runtime directories
-  (`.specify/runtime/` or similar).
-- **FR-009**: System MUST NOT add patterns that would ignore `.specify/memory/`
-  directory.
-- **FR-010**: System MUST NOT add patterns that would ignore `.specify/templates/`
-  directory.
-- **FR-011**: System MUST NOT add patterns that would ignore `.specify/scripts/`
-  directory.
-- **FR-012**: System MUST NOT add patterns that would ignore the `specify-run`
-  script.
+- **FR-008**: System MUST add pattern `.specify/.runtime/` to ignore SpecKit
+  runtime directory.
+- **FR-009**: System MUST add negation pattern `!.specify/` to un-ignore the
+  SpecKit configuration directory.
+- **FR-010**: System MUST add negation pattern `!.specify/scripts/**` to un-ignore
+  the scripts directory and its contents.
+- **FR-011**: System MUST add negation pattern `!.specify/templates/**` to un-ignore
+  the templates directory and its contents.
+- **FR-012**: System MUST add negation pattern `!.specify/memory/**` to un-ignore
+  the memory directory and its contents.
 - **FR-013**: System MUST use a marker comment (e.g., `# SpecKit`) to group
   SpecKit-related gitignore entries.
 - **FR-014**: System MUST be idempotent - running bootstrap multiple times should
