@@ -1,4 +1,4 @@
-# `specify-run` — deterministic SpecKit execution with sefety
+# `specify-run` — deterministic SpecKit execution with safety
 
 This repository uses a **self-bootstrapping, repository-pinned SpecKit entrypoint**.
 
@@ -101,23 +101,32 @@ This rule applies to:
 
 ---
 
-## Installation & Provisioning
+## Setup
 
-There is **nothing to install manually**.
+Copy the `specify-run` script into your project:
 
-On first run:
+```bash
+curl -O https://raw.githubusercontent.com/.../specify-run
+chmod +x specify-run
+```
+
+The script can be placed at repository root or any subdirectory where you want
+SpecKit provisioned.
+
+## First Run
+
+On first run, the script automatically:
+
+* creates `.venv/` in the script's directory
+* installs the pinned SpecKit version
+* caches the installation
 
 ```bash
 ./specify-run
 ```
 
-The script will:
-
-* create `.venv/`
-* install the pinned SpecKit version
-* cache the install
-
-Subsequent runs are fast and offline-safe.
+Subsequent runs are fast and offline-safe. No manual installation of SpecKit
+or its dependencies is required.
 
 ---
 

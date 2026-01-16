@@ -138,7 +138,7 @@ rollback in <2 minutes.
 - [x] T029 Review INTEGRATION.md for completeness
 - [x] T030 Verify all 12 required topics are covered across 3 files
 - [x] T031 Run quickstart.md validation checklist
-- [ ] T032 Fix typo in README.md title ("sefety" → "safety")
+- [x] T032 Fix typo in README.md title ("sefety" → "safety")
 
 ---
 
