@@ -1,10 +1,12 @@
 # `specify-run` — deterministic SpecKit execution with safety
 
-This repository uses a **self-bootstrapping, repository-pinned SpecKit entrypoint**.
+`specify-run` is a single-file wrapper script that provides **deterministic,
+version-pinned SpecKit execution**. Copy it into any project to get:
 
-There is **no global installation** and **no `$PATH` dependency**.
-
-All humans, CI jobs, editors, and AI agents **must** invoke SpecKit via:
+* **Reproducible builds**: Same SpecKit version across all developers, CI, and time
+* **Zero setup friction**: Works immediately after copying—no global install required
+* **Supply-chain visibility**: Version changes are explicit commits, not silent upgrades
+* **AI agent compatibility**: One canonical command that agents can follow reliably
 
 ```bash
 ./specify-run <command>
