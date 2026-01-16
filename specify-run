@@ -117,6 +117,7 @@ $GITIGNORE_MARKER
 !.specify/templates/**
 !.specify/memory/**
 "
+  echo "$block" >> "$gitignore"
 }
 
 # ---------------------------------------------------------------------------
