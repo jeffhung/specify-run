@@ -25,7 +25,7 @@
 **Purpose**: Add helper functions and constants used by all prompting logic
 
 - [x] T001 Add exit code constants (EX_TEMPFAIL=75, EX_CONFIG=78) in specify-run
-- [ ] T002 Add `prompt_user()` function skeleton in specify-run
+- [x] T002 Add `prompt_user()` function skeleton in specify-run
 - [ ] T003 Add `parse_answers()` function to parse SPECIFYRUN_ANSWERS in specify-run
 - [ ] T004 Add `is_interactive()` function using `[ -t 0 ]` check in specify-run
 
