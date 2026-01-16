@@ -1,14 +1,16 @@
 <!--
 Sync Impact Report
 ==================
-Version change: N/A → 0.1.0 (initial planning/PoC)
+Version change: 0.1.0 → 0.2.0 (MINOR: new principle added)
 Modified sections:
-  - Project Mission: clarified flexible directory placement
-  - Distribution Model: updated for any-directory installation
+  - Core Principles: Added "VI. User Consent for Modifications"
+Added sections:
+  - Principle VI: User Consent for Modifications
+Removed sections: None
 Templates requiring updates:
-  - plan-template.md: ✅ Compatible (Constitution Check section exists)
-  - spec-template.md: ✅ Compatible (no constitution-specific content)
-  - tasks-template.md: ✅ Compatible (no constitution-specific content)
+  - plan-template.md: ✅ Compatible (no changes needed)
+  - spec-template.md: ✅ Compatible (no changes needed)
+  - tasks-template.md: ✅ Compatible (no changes needed)
 Follow-up TODOs: None
 -->
 
@@ -70,6 +72,20 @@ without inferring paths or versions.
 **Rationale**: AI-assisted development is a primary use case; fragile automation
 defeats the tool's purpose.
 
+### VI. User Consent for Modifications
+
+When `specify-run` itself (not the delegated SpecKit command) intends to modify
+any file or directory in the project, it MUST first prompt the user with a clear
+explanation of what will be performed and why. The script MUST only proceed if
+the user explicitly agrees.
+
+This requirement does NOT apply when execution is delegated to the SpecKit
+command (`specify`), as SpecKit has its own prompting logic.
+
+**Rationale**: Explicit user consent prevents unexpected changes to the project
+and maintains trust. Users must understand and approve modifications before they
+occur.
+
 ## Distribution Model
 
 Adopting projects install `specify-run` by:
@@ -104,4 +120,4 @@ This constitution supersedes conflicting practices. All contributors and agents
 MUST verify compliance before making changes. Use `CLAUDE.md` for runtime
 development guidance.
 
-**Version**: 0.1.0 | **Ratified**: 2026-01-15 | **Last Amended**: 2026-01-15
+**Version**: 0.2.0 | **Ratified**: 2026-01-15 | **Last Amended**: 2026-01-16
