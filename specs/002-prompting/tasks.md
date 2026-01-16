@@ -39,7 +39,7 @@
 
 - [x] T005 Implement `prompt_user()` to display message and read y/n in specify-run
 - [x] T006 Implement `parse_answers()` to extract key=value pairs in specify-run
-- [ ] T007 Add `--yes`/`-y` flag detection at script start in specify-run
+- [x] T007 ~~Add `--yes`/`-y` flag detection~~ N/A - using env vars only
 - [ ] T008 Add `SPECIFYRUN_BY_AGENT` environment variable detection in specify-run
 
 **Checkpoint**: Foundation ready - prompting infrastructure complete
@@ -57,7 +57,7 @@ prompt appears before any directory creation.
 
 - [ ] T009 [US1] Add bootstrap prompt before `python -m venv` call in specify-run
 - [ ] T010 [US1] Implement interactive mode: read y/n, proceed or exit 130 in specify-run
-- [ ] T011 [US1] Implement `--yes` bypass for bootstrap prompt in specify-run
+- [ ] T011 [US1] Implement SPECIFYRUN_ANSWERS bypass for bootstrap prompt in specify-run
 - [ ] T012 [US1] Implement agentic mode with `bootstrap` key hint in specify-run
 - [ ] T013 [US1] Exit 75 when agentic mode has no matching answer in specify-run
 - [ ] T014 [US1] Exit 78 when non-interactive without `--yes` in specify-run
@@ -77,7 +77,7 @@ prompt appears before pip install.
 
 - [ ] T015 [US2] Add upgrade prompt before `pip install` when stamp mismatches in specify-run
 - [ ] T016 [US2] Display old and new version in upgrade prompt in specify-run
-- [ ] T017 [US2] Implement `--yes` bypass for upgrade prompt in specify-run
+- [ ] T017 [US2] Implement SPECIFYRUN_ANSWERS bypass for upgrade prompt in specify-run
 - [ ] T018 [US2] Implement agentic mode with `upgrade` key hint in specify-run
 - [ ] T019 [US2] Handle exit codes (130/75/78) for upgrade prompt in specify-run
 

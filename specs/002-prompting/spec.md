@@ -116,8 +116,8 @@ no `specify-run` prompts appear (only SpecKit's own prompts if any).
 ### Edge Cases
 
 - What happens when the user runs in non-interactive mode (e.g., CI)?
-  The script detects non-interactive terminals and requires an explicit `--yes`
-  flag to proceed, otherwise exits with an error message.
+  The script detects non-interactive terminals and requires `SPECIFYRUN_ANSWERS`
+  with appropriate keys to proceed, otherwise exits with an error message.
 - What happens if the user interrupts during the confirmation prompt?
   The script exits cleanly without partial modifications.
 - What happens if `.venv/` exists but is corrupted or incomplete?
@@ -137,10 +137,10 @@ no `specify-run` prompts appear (only SpecKit's own prompts if any).
   confirmation.
 - **FR-005**: The script MUST NOT prompt when delegating execution to SpecKit
   (SpecKit handles its own prompting).
-- **FR-006**: The script MUST provide a `--yes` or `-y` flag to skip prompts
-  for non-interactive environments (CI, automation).
+- **FR-006**: The script MUST support `SPECIFYRUN_ANSWERS` environment variable
+  to skip prompts for non-interactive environments (CI, automation).
 - **FR-007**: The script MUST detect non-interactive terminals and exit with
-  an error message indicating `--yes` is required.
+  an error message indicating `SPECIFYRUN_ANSWERS` is required.
 - **FR-008**: The script MUST support agentic mode when `SPECIFYRUN_BY_AGENT=1`
   environment variable is set.
 - **FR-009**: In agentic mode, when a prompt is needed and no matching answer
@@ -173,8 +173,8 @@ no `specify-run` prompts appear (only SpecKit's own prompts if any).
   modification occurs.
 - **SC-002**: 100% of filesystem modifications by `specify-run` are preceded
   by user consent (excluding delegated SpecKit operations).
-- **SC-003**: Users can run the script in CI/automation using `--yes` without
-  interactive prompts.
+- **SC-003**: Users can run the script in CI/automation using `SPECIFYRUN_ANSWERS`
+  without interactive prompts.
 - **SC-004**: Users can decline any modification and exit cleanly with no
   partial changes.
 - **SC-005**: AI agents can complete bootstrap/upgrade workflows using only
@@ -186,8 +186,8 @@ no `specify-run` prompts appear (only SpecKit's own prompts if any).
   for interactive prompting.
 - Non-interactive detection uses standard terminal detection (e.g., `[ -t 0 ]`
   in bash).
-- The `--yes` flag is consistent with common CLI conventions for bypassing
-  prompts.
+- Environment variables are used exclusively for non-interactive control to
+  avoid adding command-line options to the wrapper script.
 
 ## Clarifications
 
