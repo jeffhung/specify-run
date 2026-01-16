@@ -35,7 +35,7 @@ Stories 3 & 4 are satisfied by the same implementation.
 
 **Purpose**: Helper functions needed before gitignore logic
 
-- [ ] T001 Add `is_git_repo()` helper function in specify-run (after existing helpers around line 97)
+- [x] T001 Add `is_git_repo()` helper function in specify-run (after existing helpers around line 97)
 - [ ] T002 Add `configure_gitignore()` function skeleton in specify-run (after `is_agentic()`)
 - [ ] T003 Add `GITIGNORE_MARKER` constant in specify-run (in Configuration section around line 28)
 
