@@ -55,7 +55,7 @@ returns exit code 1 (not ignored).
 ### Implementation for User Stories 1 & 2
 
 - [x] T004 [US1] Implement git repository detection using `git rev-parse --is-inside-work-tree` in `is_git_repo()` in specify-run
-- [ ] T005 [US1] Implement marker check logic (`grep -q "# specify-run"`) in `configure_gitignore()` in specify-run
+- [x] T005 [US1] Implement marker check logic (`grep -q "# specify-run"`) in `configure_gitignore()` in specify-run
 - [ ] T006 [US1] Implement gitignore block content with `.venv/` and negation patterns in `configure_gitignore()` in specify-run
 - [ ] T007 [US2] Add negation patterns `!.specify/`, `!.specify/scripts/**`, `!.specify/templates/**`, `!.specify/memory/**` in gitignore block in specify-run
 - [ ] T008 [US1] Implement append logic (create file if missing, append if marker absent) in `configure_gitignore()` in specify-run

@@ -104,7 +104,10 @@ is_git_repo() {
 }
 
 configure_gitignore() {
-  :
+  local gitignore="$ROOT/.gitignore"
+  if [[ -f "$gitignore" ]] && grep -q "$GITIGNORE_MARKER" "$gitignore"; then
+    return 0
+  fi
 }
 
 # ---------------------------------------------------------------------------
