@@ -64,6 +64,9 @@ prompt_user() {
       [Yy]*) return 0 ;;
       *) exit 130 ;;
     esac
+  elif is_agentic; then
+    echo "Append \`$key=y\` to SPECIFYRUN_ANSWERS environment variable to proceed."
+    exit "$EX_TEMPFAIL"
   else
     exit "$EX_CONFIG"
   fi
