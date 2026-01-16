@@ -60,7 +60,7 @@ prompt appears before any directory creation.
 - [x] T011 [US1] Implement SPECIFYRUN_ANSWERS bypass for bootstrap prompt in specify-run
 - [x] T012 [US1] Implement agentic mode with `bootstrap` key hint in specify-run
 - [x] T013 [US1] Exit 75 when agentic mode has no matching answer in specify-run
-- [ ] T014 [US1] Exit 78 when non-interactive without `--yes` in specify-run
+- [x] T014 [US1] Exit 78 when non-interactive and no SPECIFYRUN_ANSWERS in specify-run
 
 **Checkpoint**: First-run prompting fully functional
 
