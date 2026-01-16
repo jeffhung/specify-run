@@ -51,8 +51,14 @@ prompt_user() {
   local key="$1"
   local message="$2"
   local response
+  local answer
   echo "[specify-run] $message"
-  if is_interactive; then
+  if answer=$(get_answer "$key"); then
+    case "$answer" in
+      [Yy]*) return 0 ;;
+      *) exit 130 ;;
+    esac
+  elif is_interactive; then
     read -r -p "Proceed? [Y/n]: " response
     case "${response:-y}" in
       [Yy]*) return 0 ;;
