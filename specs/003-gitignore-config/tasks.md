@@ -101,7 +101,7 @@ script remains trackable.
 - [x] T015 [P] Manual verification: run `./specify-run` in fresh git repo, check `.gitignore` contents
 - [x] T016 [P] Manual verification: run `./specify-run` twice, verify idempotency (no duplicates)
 - [x] T017 [P] Manual verification: run `git check-ignore` on all paths per quickstart.md
-- [ ] T018 Update CLAUDE.md Recent Changes section if needed
+- [x] T018 Update CLAUDE.md Recent Changes section if needed
 
 ---
 

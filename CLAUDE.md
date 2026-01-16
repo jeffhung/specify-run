@@ -83,4 +83,5 @@ Exit codes:
 - File-based (`.gitignore` at repository root) (003-gitignore-config)
 
 ## Recent Changes
+- 003-gitignore-config: Added gitignore configuration with negation patterns for SpecKit files
 - 001-essential-docs: Added Markdown (documentation only) + None (pure documentation)
