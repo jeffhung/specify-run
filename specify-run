@@ -108,6 +108,15 @@ configure_gitignore() {
   if [[ -f "$gitignore" ]] && grep -q "$GITIGNORE_MARKER" "$gitignore"; then
     return 0
   fi
+  local block
+  block="
+$GITIGNORE_MARKER
+.venv/
+!.specify/
+!.specify/scripts/**
+!.specify/templates/**
+!.specify/memory/**
+"
 }
 
 # ---------------------------------------------------------------------------
