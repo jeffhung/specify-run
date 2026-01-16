@@ -116,6 +116,11 @@ $GITIGNORE_MARKER
 !.specify/scripts/**
 !.specify/templates/**
 !.specify/memory/**
+
+.specify/cache/
+.specify/tmp/
+.specify/logs/
+.specify/.runtime/
 "
   echo "$block" >> "$gitignore"
 }

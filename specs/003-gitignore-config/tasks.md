@@ -75,7 +75,7 @@ script remains trackable.
 
 ### Implementation for User Stories 3 & 4
 
-- [ ] T010 [US3] Add ignore patterns `.specify/cache/`, `.specify/tmp/`, `.specify/logs/`, `.specify/.runtime/` in gitignore block in specify-run
+- [x] T010 [US3] Add ignore patterns `.specify/cache/`, `.specify/tmp/`, `.specify/logs/`, `.specify/.runtime/` in gitignore block in specify-run
 - [ ] T011 [US4] Verify `specify-run` is NOT added to gitignore patterns (code review only - no code change)
 
 **Checkpoint**: Runtime artifacts ignored, versioned files trackable
