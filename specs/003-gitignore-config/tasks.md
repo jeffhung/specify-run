@@ -98,9 +98,9 @@ script remains trackable.
 
 **Purpose**: Final verification and documentation
 
-- [ ] T015 [P] Manual verification: run `./specify-run` in fresh git repo, check `.gitignore` contents
-- [ ] T016 [P] Manual verification: run `./specify-run` twice, verify idempotency (no duplicates)
-- [ ] T017 [P] Manual verification: run `git check-ignore` on all paths per quickstart.md
+- [x] T015 [P] Manual verification: run `./specify-run` in fresh git repo, check `.gitignore` contents
+- [x] T016 [P] Manual verification: run `./specify-run` twice, verify idempotency (no duplicates)
+- [x] T017 [P] Manual verification: run `git check-ignore` on all paths per quickstart.md
 - [ ] T018 Update CLAUDE.md Recent Changes section if needed
 
 ---
