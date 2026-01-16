@@ -123,7 +123,10 @@ $GITIGNORE_MARKER
 .specify/logs/
 .specify/.runtime/
 "
-  echo "$block" >> "$gitignore"
+  if ! echo "$block" >> "$gitignore" 2>/dev/null; then
+    echo "WARNING: Could not write to .gitignore (read-only or permission denied)" >&2
+    return 0
+  fi
 }
 
 # ---------------------------------------------------------------------------
