@@ -80,6 +80,7 @@ Exit codes:
 - Markdown (documentation only) + None (pure documentation) (001-essential-docs)
 - Bash (POSIX-compatible with bashisms) + None (self-contained script) (002-prompting)
 - N/A (stateless, uses stamp file for version tracking) (002-prompting)
+- File-based (`.gitignore` at repository root) (003-gitignore-config)
 
 ## Recent Changes
 - 001-essential-docs: Added Markdown (documentation only) + None (pure documentation)

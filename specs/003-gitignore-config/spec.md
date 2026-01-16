@@ -158,8 +158,8 @@ in `.gitignore`.
   the templates directory and its contents.
 - **FR-012**: System MUST add negation pattern `!.specify/memory/**` to un-ignore
   the memory directory and its contents.
-- **FR-013**: System MUST use a marker comment (e.g., `# SpecKit`) to group
-  SpecKit-related gitignore entries.
+- **FR-013**: System MUST use a marker comment `# specify-run` to group
+  specify-run managed gitignore entries.
 - **FR-014**: System MUST be idempotent - running bootstrap multiple times should
   not duplicate gitignore entries.
 - **FR-015**: System SHOULD warn user if existing gitignore patterns may conflict
