@@ -127,6 +127,7 @@ $GITIGNORE_MARKER
     echo "WARNING: Could not write to .gitignore (read-only or permission denied)" >&2
     return 0
   fi
+  info "Configured .gitignore"
 }
 
 # ---------------------------------------------------------------------------

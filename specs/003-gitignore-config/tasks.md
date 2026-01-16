@@ -88,7 +88,7 @@ script remains trackable.
 
 - [x] T012 Implement silent skip when `is_git_repo()` returns false in `configure_gitignore()` in specify-run
 - [x] T013 Add write error handling with warning message in `configure_gitignore()` in specify-run
-- [ ] T014 Add info message when gitignore is configured: `info "Configured .gitignore"` in specify-run
+- [x] T014 Add info message when gitignore is configured: `info "Configured .gitignore"` in specify-run
 
 **Checkpoint**: All edge cases handled gracefully
 
