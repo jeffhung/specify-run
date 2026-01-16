@@ -40,7 +40,7 @@
 - [x] T005 Implement `prompt_user()` to display message and read y/n in specify-run
 - [x] T006 Implement `parse_answers()` to extract key=value pairs in specify-run
 - [x] T007 ~~Add `--yes`/`-y` flag detection~~ N/A - using env vars only
-- [ ] T008 Add `SPECIFYRUN_BY_AGENT` environment variable detection in specify-run
+- [x] T008 Add `SPECIFYRUN_BY_AGENT` environment variable detection in specify-run
 
 **Checkpoint**: Foundation ready - prompting infrastructure complete
 
