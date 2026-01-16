@@ -37,7 +37,7 @@ Stories 3 & 4 are satisfied by the same implementation.
 
 - [x] T001 Add `is_git_repo()` helper function in specify-run (after existing helpers around line 97)
 - [x] T002 Add `configure_gitignore()` function skeleton in specify-run (after `is_agentic()`)
-- [ ] T003 Add `GITIGNORE_MARKER` constant in specify-run (in Configuration section around line 28)
+- [x] T003 Add `GITIGNORE_MARKER` constant in specify-run (in Configuration section around line 28)
 
 **Checkpoint**: Foundation ready - gitignore implementation can begin
 

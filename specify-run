@@ -27,6 +27,9 @@ SPECKIT_REF="v0.0.90"
 # Marker to avoid re-install loops
 STAMP="$VENV/.speckit-installed-$SPECKIT_REF"
 
+# Marker for gitignore block identification
+GITIGNORE_MARKER="# specify-run"
+
 # ---------------------------------------------------------------------------
 # Exit codes (BSD sysexits)
 # ---------------------------------------------------------------------------
