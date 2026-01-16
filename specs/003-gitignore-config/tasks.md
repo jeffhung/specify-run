@@ -86,7 +86,7 @@ script remains trackable.
 
 **Purpose**: Handle non-git repos, read-only files, conflicting patterns
 
-- [ ] T012 Implement silent skip when `is_git_repo()` returns false in `configure_gitignore()` in specify-run
+- [x] T012 Implement silent skip when `is_git_repo()` returns false in `configure_gitignore()` in specify-run
 - [ ] T013 Add write error handling with warning message in `configure_gitignore()` in specify-run
 - [ ] T014 Add info message when gitignore is configured: `info "Configured .gitignore"` in specify-run
 
