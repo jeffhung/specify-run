@@ -1,11 +1,11 @@
 <!--
 Sync Impact Report
 ==================
-Version change: 0.1.0 → 0.2.0 (MINOR: new principle added)
+Version change: 0.2.0 → 0.3.0 (MINOR: new principle added)
 Modified sections:
-  - Core Principles: Added "VI. User Consent for Modifications"
+  - Core Principles: Added "VII. Idempotent Security Enforcement"
 Added sections:
-  - Principle VI: User Consent for Modifications
+  - Principle VII: Idempotent Security Enforcement
 Removed sections: None
 Templates requiring updates:
   - plan-template.md: ✅ Compatible (no changes needed)
@@ -86,6 +86,32 @@ command (`specify`), as SpecKit has its own prompting logic.
 and maintains trust. Users must understand and approve modifications before they
 occur.
 
+### VII. Idempotent Security Enforcement
+
+Every execution of `specify-run` MUST verify that all security hardenings are
+in place before delegating to the SpecKit command. The script MUST reach an
+expected secure state regardless of the previous environment state.
+
+If hardenings are missing or have been modified (e.g., by accidental human
+edits), the script MUST:
+
+1. Detect the deviation from the expected secure configuration
+2. Display a clear message explaining what is misconfigured and why it matters
+3. Prompt the user for consent before applying fixes (per Principle VI)
+4. Apply the fixes upon consent
+5. **Stop execution without delegating to SpecKit**, displaying a message that
+   instructs the user to commit the hardening changes first
+
+This stop-after-fix behavior ensures that security remediation changes are
+committed separately from normal SpecKit operations, maintaining clean commit
+history and clear audit trails.
+
+**Rationale**: Security configurations can drift over time due to accidental
+modifications. Idempotent enforcement ensures every invocation verifies the
+expected secure baseline. Stopping after remediation prevents mixing security
+fixes with unrelated changes in the same commit, enabling proper review and
+rollback of each concern independently.
+
 ## Distribution Model
 
 Adopting projects install `specify-run` by:
@@ -120,4 +146,4 @@ This constitution supersedes conflicting practices. All contributors and agents
 MUST verify compliance before making changes. Use `CLAUDE.md` for runtime
 development guidance.
 
-**Version**: 0.2.0 | **Ratified**: 2026-01-15 | **Last Amended**: 2026-01-16
+**Version**: 0.3.0 | **Ratified**: 2026-01-15 | **Last Amended**: 2026-01-17
