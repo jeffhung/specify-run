@@ -51,6 +51,8 @@ To upgrade: edit `SPECKIT_REF` and commit. Next run auto-upgrades.
 
 ## Active Technologies
 - Markdown (documentation only) + None (pure documentation) (001-essential-docs)
+- Bash (POSIX-compatible with bashisms) + None (self-contained script) (002-prompting)
+- N/A (stateless, uses stamp file for version tracking) (002-prompting)
 
 ## Recent Changes
 - 001-essential-docs: Added Markdown (documentation only) + None (pure documentation)
