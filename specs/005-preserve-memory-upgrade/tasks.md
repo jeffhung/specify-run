@@ -37,7 +37,7 @@ implementation and testing.
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 Refactor upgrade block to separate CLI upgrade from project file handling in `specify-run`
+- [x] T004 Refactor upgrade block to separate CLI upgrade from project file handling in `specify-run`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 

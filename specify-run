@@ -277,11 +277,23 @@ if [[ ! -f "$STAMP" ]]; then
   if [[ -n "$OLD_REF" ]]; then
     prompt_user "upgrade" "About to upgrade SpecKit from $OLD_REF to $SPECKIT_REF"
     rm -f "$VENV"/.speckit-installed-*
-    info "Installing SpecKit ($SPECKIT_REF)"
+
+    info "Installing SpecKit CLI ($SPECKIT_REF)"
     "$PIP" install --upgrade \
       "git+$SPECKIT_GIT@$SPECKIT_REF"
+
+    # Re-bootstrap project files (preserve memory, replace scripts/templates)
+    detect_provisioned_agents
+    if [[ ${#PROVISIONED_AGENTS[@]} -gt 0 ]]; then
+      backup_memory
+      for agent in "${PROVISIONED_AGENTS[@]}"; do
+        "$SPECIFY" init --here --force --ai "$agent"
+      done
+      restore_memory
+    fi
+
     touch "$STAMP"
-    echo "[specify-run] SpecKit upgraded."
+    echo "[specify-run] SpecKit upgraded to $SPECKIT_REF."
     echo "Please commit these changes, then re-run ./specify-run:"
     echo "  git add -A && git commit -m \"chore: upgrade SpecKit to $SPECKIT_REF\""
     exit "$EX_TEMPFAIL"
