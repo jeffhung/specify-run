@@ -199,6 +199,13 @@ $GITIGNORE_MARKER
   info "Security hardenings applied."
 }
 
+stop_after_gitignore_fix() {
+  echo "[specify-run] Security hardenings applied."
+  echo "Please commit these changes, then re-run ./specify-run:"
+  echo "  git add .gitignore && git commit -m \"fix: restore specify-run security hardenings\""
+  exit "$EX_TEMPFAIL"
+}
+
 configure_gitignore() {
   is_git_repo || return 0
   local gitignore="$ROOT/.gitignore"
