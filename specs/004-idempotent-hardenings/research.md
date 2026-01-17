@@ -83,14 +83,17 @@ Please commit these changes before re-running:
 
 ### 4. Agentic Mode Answer Key
 
-**Decision**: Use `gitignore_fix` as the answer key for remediation consent.
+**Decision**: Use `gitignore` as the answer key for both initial provision and
+remediation consent.
 
-**Rationale**: Consistent with existing pattern (`bootstrap`, `upgrade`). Clear
-and descriptive name that agents can understand from the hint message.
+**Rationale**: Gitignore hardening provision (during bootstrap) and fixing
+(during remediation) are logically the same idempotent operation. Using a single
+answer key (`gitignore`) simplifies the agent experience—one key covers both
+scenarios. This aligns with the idempotent design principle.
 
 **Hint message**:
 ```text
-Append `gitignore_fix=y` to SPECIFYRUN_ANSWERS environment variable to proceed.
+Append `gitignore=y` to SPECIFYRUN_ANSWERS environment variable to proceed.
 ```
 
 ### 5. Execution Flow

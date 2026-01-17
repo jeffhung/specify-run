@@ -106,7 +106,7 @@ behavior, then retry with `SPECIFYRUN_ANSWERS` containing the fix consent.
 
 **Acceptance Scenarios**:
 
-1. **Given** agentic mode with `SPECIFYRUN_ANSWERS="gitignore_fix=y"`,
+1. **Given** agentic mode with `SPECIFYRUN_ANSWERS="gitignore=y"`,
    **When** remediation is needed,
    **Then** the script applies the fix, prints commit instructions, and exits.
 

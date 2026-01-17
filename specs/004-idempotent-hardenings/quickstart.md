@@ -71,15 +71,19 @@ For AI agents:
 # First attempt - gets hint
 $ SPECIFYRUN_BY_AGENT=1 ./specify-run
 [specify-run] Security hardenings incomplete.
-Append `gitignore_fix=y` to SPECIFYRUN_ANSWERS environment variable to proceed.
+Append `gitignore=y` to SPECIFYRUN_ANSWERS environment variable to proceed.
 # Exit code: 75
 
 # Retry with answer
-$ SPECIFYRUN_BY_AGENT=1 SPECIFYRUN_ANSWERS="gitignore_fix=y" ./specify-run
+$ SPECIFYRUN_BY_AGENT=1 SPECIFYRUN_ANSWERS="gitignore=y" ./specify-run
 [specify-run] Security hardenings applied.
 Please commit these changes before re-running.
 # Exit code: 0
 ```
+
+Note: The same `gitignore` key works for both initial provision (during
+bootstrap) and remediation (fixing missing patterns). This is intentional—both
+are the same idempotent operation.
 
 ## Exit Codes
 
