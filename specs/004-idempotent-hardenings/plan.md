@@ -7,8 +7,10 @@
 
 Implement idempotent security hardening verification in `specify-run`. Every
 execution verifies `.gitignore` patterns are correctly configured. If patterns
-are missing/modified, the script detects the deviation, prompts for consent,
-applies fixes (if working copy is clean), then stops to allow standalone commit.
+are missing/modified on an existing environment, the script detects the
+deviation, checks if the hardening target is dirty, prompts for consent, applies
+fixes (if target is clean), then stops to allow standalone commit. Fresh
+provisioning (no `.venv/`) completes in one pass without stopping.
 
 ## Technical Context
 
@@ -21,7 +23,7 @@ applies fixes (if working copy is clean), then stops to allow standalone commit.
 **Performance Goals**: Verification completes in <100ms
 **Constraints**: Must remain single-file, no external dependencies beyond
 Python 3.9+ and Git
-**Scale/Scope**: Single bash script (~200 lines)
+**Scale/Scope**: Single bash script (~250 lines)
 
 ## Constitution Check
 
@@ -33,9 +35,9 @@ Python 3.9+ and Git
 | II. Zero Configuration | ✅ Pass | No new config files required |
 | III. Pinned Reproducibility | ✅ Pass | No impact on version pinning |
 | IV. Explicit Upgrades | ✅ Pass | No impact on upgrade mechanism |
-| V. Agent-Safe Design | ✅ Pass | Uses existing `SPECIFYRUN_ANSWERS` pattern |
+| V. Agent-Safe Design | ✅ Pass | Uses existing `SPECIFYRUN_ANSWERS` pattern with `gitignore` key |
 | VI. User Consent for Modifications | ✅ Pass | Prompts before applying fixes |
-| VII. Idempotent Security Enforcement | ✅ Pass | Core feature being implemented |
+| VII. Idempotent Security Enforcement | ✅ Pass | Core feature; includes commit isolation and fresh provisioning exception |
 
 ## Project Structure
 

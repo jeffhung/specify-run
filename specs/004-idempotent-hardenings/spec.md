@@ -18,6 +18,11 @@
   provisioning (no `.venv/`) completes in one pass: create venv, install SpecKit,
   apply hardenings, delegate to `specify`. Stop-after-fix only applies to
   remediation of drifted hardenings on existing environments.
+- Q: Should SpecKit upgrade stop after completion? → A: Yes. Upgrading SpecKit
+  updates scripts and templates in the project directory (under VCS), which is
+  a massive change deserving a standalone commit. Stop-after-fix applies to
+  upgrades regardless of stamp file location. Stamp file stays inside `.venv/`
+  for easy cleanup when user deletes the folder.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -177,6 +182,32 @@ verify all steps complete and `specify init` runs without intermediate stops.
 
 ---
 
+### User Story 7 - Stop After SpecKit Upgrade (Priority: P1)
+
+When upgrading SpecKit (changing `SPECKIT_REF`), the script installs the new
+version and updates project scripts/templates, then stops execution and
+instructs the user to commit the changes before re-running. This ensures
+upgrade changes are committed separately from SpecKit operations.
+
+**Why this priority**: P1 because SpecKit upgrades modify VCS-tracked files
+(scripts, templates) and deserve standalone commits per Principle VII.
+
+**Independent Test**: Change `SPECKIT_REF` in the script, run `./specify-run`,
+and verify it stops after upgrade with commit instructions.
+
+**Acceptance Scenarios**:
+
+1. **Given** `SPECKIT_REF` was changed and old stamp exists,
+   **When** user runs `./specify-run`,
+   **Then** the script upgrades SpecKit, updates project files, prints commit
+   instructions, and exits without delegating to `specify`.
+
+2. **Given** SpecKit was just upgraded,
+   **When** user re-runs `./specify-run` after committing,
+   **Then** the script proceeds normally to SpecKit delegation.
+
+---
+
 ### Edge Cases
 
 - What happens when `.gitignore` does not exist at all? (Script should create
@@ -244,6 +275,16 @@ verify all steps complete and `specify init` runs without intermediate stops.
 - **FR-014**: The fresh provisioning exception applies only when `.venv/` does
   not exist. Once `.venv/` exists, all subsequent runs follow the remediation
   rules (FR-005 through FR-012).
+
+- **FR-015**: When upgrading SpecKit (stamp file indicates different version
+  than `SPECKIT_REF`), the script MUST install the new version, update project
+  scripts/templates, then stop execution without delegating to SpecKit.
+
+- **FR-016**: After SpecKit upgrade, the script MUST display a message
+  instructing the user to commit the upgrade changes before re-running.
+
+- **FR-017**: The stamp file MUST remain inside `.venv/` directory for easy
+  cleanup when user deletes the folder.
 
 ### Key Entities
 
