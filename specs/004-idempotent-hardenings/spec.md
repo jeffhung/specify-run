@@ -14,6 +14,10 @@
   has staged or unstaged changes. Other files being dirty does not block
   remediation. The script never commits—it only modifies the file and instructs
   the user to commit separately.
+- Q: Should fresh provisioning stop after applying hardenings? → A: No. Fresh
+  provisioning (no `.venv/`) completes in one pass: create venv, install SpecKit,
+  apply hardenings, delegate to `specify`. Stop-after-fix only applies to
+  remediation of drifted hardenings on existing environments.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -146,6 +150,33 @@ mandated (Principle VII).
 
 ---
 
+### User Story 6 - Fresh Provisioning in One Pass (Priority: P1)
+
+When running `./specify-run init` on a fresh environment (no existing `.venv/`),
+all setup steps complete in one pass without stopping: create virtualenv,
+install SpecKit, apply hardenings, and delegate to `specify`. This allows
+users to provision a hardened SpecKit environment with a single command.
+
+**Why this priority**: P1 because zero-friction adoption is constitutionally
+mandated (Principle II) and fresh provisioning is a primary use case.
+
+**Independent Test**: Run `./specify-run init` on a fresh clone with no `.venv/`;
+verify all steps complete and `specify init` runs without intermediate stops.
+
+**Acceptance Scenarios**:
+
+1. **Given** a fresh environment with no `.venv/`,
+   **When** user runs `./specify-run init`,
+   **Then** the script creates virtualenv, installs SpecKit, applies hardenings,
+   and delegates to `specify init` in one pass.
+
+2. **Given** a fresh environment with no `.venv/`,
+   **When** user runs `./specify-run` (any command),
+   **Then** the script completes full provisioning including hardenings before
+   delegating to `specify`.
+
+---
+
 ### Edge Cases
 
 - What happens when `.gitignore` does not exist at all? (Script should create
@@ -204,6 +235,15 @@ mandated (Principle VII).
 
 - **FR-012**: The script MUST NOT commit changes. It only modifies files and
   instructs the user to commit separately.
+
+- **FR-013**: When provisioning a fresh environment (no existing `.venv/`), the
+  script MUST complete all setup steps in one pass: create virtualenv, install
+  SpecKit, apply hardenings, and delegate to `specify`. The stop-after-fix rule
+  (FR-005) does NOT apply to fresh provisioning.
+
+- **FR-014**: The fresh provisioning exception applies only when `.venv/` does
+  not exist. Once `.venv/` exists, all subsequent runs follow the remediation
+  rules (FR-005 through FR-012).
 
 ### Key Entities
 

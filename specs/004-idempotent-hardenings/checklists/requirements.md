@@ -3,6 +3,7 @@
 **Purpose**: Validate specification completeness and quality before proceeding
 to planning  
 **Created**: 2026-01-17  
+**Updated**: 2026-01-17  
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality
@@ -32,4 +33,9 @@ to planning
 
 ## Notes
 
-All items pass. Specification is ready for `/speckit.clarify` or `/speckit.plan`.
+All items pass. Specification updated to include:
+- Fresh provisioning exception (US6, FR-013, FR-014)
+- Dirty check on hardening target only (FR-010, FR-011)
+- No auto-commit rule (FR-012)
+
+Specification is ready for `/speckit.plan` updates.
