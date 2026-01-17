@@ -145,10 +145,10 @@ block_if_target_dirty() {
 ```
 
 **Checklist**:
-- [ ] `block_if_target_dirty()` function implemented
-- [ ] Only checks `.gitignore` dirty state, not entire working copy
-- [ ] Exits with code 78 when blocked
-- [ ] Clear message explains what user must do
+- [x] `block_if_target_dirty()` function implemented
+- [x] Only checks `.gitignore` dirty state, not entire working copy
+- [x] Exits with code 78 when blocked
+- [x] Clear message explains what user must do
 
 ---
 

@@ -160,6 +160,15 @@ show_missing_hardenings() {
   done
 }
 
+block_if_target_dirty() {
+  local gitignore="$ROOT/.gitignore"
+  if [[ -f "$gitignore" ]] && is_file_dirty "$gitignore"; then
+    echo "[specify-run] Security hardenings incomplete, but .gitignore has uncommitted changes."
+    echo "Commit or revert your .gitignore changes first, then re-run."
+    exit "$EX_CONFIG"
+  fi
+}
+
 configure_gitignore() {
   is_git_repo || return 0
   local gitignore="$ROOT/.gitignore"
