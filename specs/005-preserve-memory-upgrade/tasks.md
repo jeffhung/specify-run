@@ -101,7 +101,7 @@ implementation and testing.
 **Purpose**: Edge cases, validation, documentation
 
 - [x] T019 Run shellcheck on `specify-run` (skipped - shellcheck not installed)
-- [ ] T020 Manual test: full upgrade flow with single agent (claude)
+- [x] T020 Manual test: full upgrade flow with single agent (claude)
 - [ ] T021 Manual test: upgrade flow with multiple agents (claude + copilot)
 - [ ] T022 Manual test: upgrade with no provisioned agents
 - [ ] T023 Manual test: upgrade with no existing memory directory
