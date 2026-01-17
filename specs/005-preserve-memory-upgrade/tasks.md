@@ -51,10 +51,10 @@ implementation and testing.
 
 ### Implementation for User Story 1
 
-- [ ] T005 [US1] Call `detect_provisioned_agents()` after CLI upgrade in `specify-run`
-- [ ] T006 [US1] Call `backup_memory()` before first `specify init` in `specify-run`
-- [ ] T007 [US1] Loop through provisioned agents calling `specify init --here --force --ai $agent` in `specify-run`
-- [ ] T008 [US1] Call `restore_memory()` after all agents re-bootstrapped in `specify-run`
+- [x] T005 [US1] Call `detect_provisioned_agents()` after CLI upgrade in `specify-run`
+- [x] T006 [US1] Call `backup_memory()` before first `specify init` in `specify-run`
+- [x] T007 [US1] Loop through provisioned agents calling `specify init --here --force --ai $agent` in `specify-run`
+- [x] T008 [US1] Call `restore_memory()` after all agents re-bootstrapped in `specify-run`
 - [ ] T009 [US1] Handle edge case: no provisioned agents found (skip re-bootstrap) in `specify-run`
 - [ ] T010 [US1] Handle edge case: no memory directory exists (skip backup) in `specify-run`
 - [ ] T011 [US1] Restore memory on `specify init` failure in `specify-run`
