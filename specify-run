@@ -287,7 +287,10 @@ if [[ ! -f "$STAMP" ]]; then
     if [[ ${#PROVISIONED_AGENTS[@]} -gt 0 ]]; then
       backup_memory
       for agent in "${PROVISIONED_AGENTS[@]}"; do
-        "$SPECIFY" init --here --force --ai "$agent"
+        if ! "$SPECIFY" init --here --force --ai "$agent"; then
+          restore_memory
+          die "SpecKit upgrade failed during $agent re-bootstrap"
+        fi
       done
       restore_memory
     else
