@@ -45,10 +45,10 @@ Add the following to the `specify-run` script:
    ```
 
 **Checklist**:
-- [ ] `REQUIRED_GITIGNORE_PATTERNS` array added
-- [ ] `is_file_dirty()` function added
-- [ ] `is_fresh_provisioning()` function added
-- [ ] Functions placed in Helpers section
+- [x] `REQUIRED_GITIGNORE_PATTERNS` array added
+- [x] `is_file_dirty()` function added
+- [x] `is_fresh_provisioning()` function added
+- [x] Functions placed in Helpers section
 
 ---
 
