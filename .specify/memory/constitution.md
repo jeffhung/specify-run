@@ -1,10 +1,10 @@
 <!--
 Sync Impact Report
 ==================
-Version change: 0.3.0 → 0.3.1 (PATCH: clarification to Principle VII)
-Modified sections:
-  - Principle VII: Clarified commit isolation requirements and fresh provisioning exception
-Added sections: None
+Version change: 0.3.1 → 0.4.0 (MINOR: new principle added)
+Modified sections: None
+Added sections:
+  - Principle VIII: Upgrade File Handling (memory preserved, scripts/templates replaced)
 Removed sections: None
 Templates requiring updates:
   - plan-template.md: ✅ Compatible (no changes needed)
@@ -136,6 +136,28 @@ review and rollback of each concern independently: (a) prior project work,
 (b) hardening fixes, (c) SpecKit operations. Fresh provisioning is exempt
 because all changes are part of a single logical setup operation.
 
+### VIII. Upgrade File Handling
+
+When upgrading SpecKit to a new version, the script MUST handle files
+differently based on their category:
+
+**Project Memory (Preserved)**:
+- Files in `.specify/memory/` MUST be preserved and inherited across upgrades
+- These files contain project-specific context that SpecKit learned over time
+- New templates from SpecKit MUST NOT overwrite existing memory files
+
+**Scripts and Templates (Replaced)**:
+- Files in `.specify/scripts/` MUST be replaced with the new version
+- Files in `.specify/templates/` MUST be replaced with the new version
+- Local modifications to these files MUST be discarded during upgrade
+- No merge or diff is attempted; the new version overwrites unconditionally
+
+**Rationale**: Memory files represent accumulated project knowledge that would
+be lost if overwritten. Scripts and templates are SpecKit-managed artifacts
+where local modifications could indicate tampering or drift from expected
+behavior. Replacing them unconditionally ensures the project uses known-good,
+auditable tooling from the pinned SpecKit version.
+
 ## Distribution Model
 
 Adopting projects install `specify-run` by:
@@ -170,4 +192,4 @@ This constitution supersedes conflicting practices. All contributors and agents
 MUST verify compliance before making changes. Use `CLAUDE.md` for runtime
 development guidance.
 
-**Version**: 0.3.1 | **Ratified**: 2026-01-15 | **Last Amended**: 2026-01-17
+**Version**: 0.4.0 | **Ratified**: 2026-01-15 | **Last Amended**: 2026-01-17
