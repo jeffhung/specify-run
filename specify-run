@@ -240,6 +240,7 @@ restore_memory() {
     rm -rf "$ROOT/.specify/memory"
     mv "$MEMORY_BACKUP" "$ROOT/.specify/memory"
     MEMORY_BACKUP=""
+    info "Preserved .specify/memory/ (project-specific files)"
   fi
 }
 
