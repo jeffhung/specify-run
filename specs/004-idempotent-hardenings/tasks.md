@@ -259,10 +259,10 @@ The existing code already does venv creation and SpecKit install. Ensure
 `configure_gitignore()` is called during bootstrap and does NOT stop.
 
 **Checklist**:
-- [ ] Fresh provisioning (no `.venv/`) completes in one pass
-- [ ] Gitignore hardenings applied during bootstrap
-- [ ] No exit 75 during fresh provisioning
-- [ ] Delegation to `specify` happens after provisioning
+- [x] Fresh provisioning (no `.venv/`) completes in one pass
+- [x] Gitignore hardenings applied during bootstrap
+- [x] No exit 75 during fresh provisioning
+- [x] Delegation to `specify` happens after provisioning
 
 ---
 
