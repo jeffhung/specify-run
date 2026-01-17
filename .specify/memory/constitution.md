@@ -1,11 +1,10 @@
 <!--
 Sync Impact Report
 ==================
-Version change: 0.2.0 → 0.3.0 (MINOR: new principle added)
+Version change: 0.3.0 → 0.3.1 (PATCH: clarification to Principle VII)
 Modified sections:
-  - Core Principles: Added "VII. Idempotent Security Enforcement"
-Added sections:
-  - Principle VII: Idempotent Security Enforcement
+  - Principle VII: Clarified commit isolation requirements and fresh provisioning exception
+Added sections: None
 Removed sections: None
 Templates requiring updates:
   - plan-template.md: ✅ Compatible (no changes needed)
@@ -102,15 +101,40 @@ edits), the script MUST:
 5. **Stop execution without delegating to SpecKit**, displaying a message that
    instructs the user to commit the hardening changes first
 
-This stop-after-fix behavior ensures that security remediation changes are
-committed separately from normal SpecKit operations, maintaining clean commit
-history and clear audit trails.
+**Commit Isolation (Remediation)**: When fixing drifted hardenings on an
+existing environment, changes made by `specify-run` MUST NOT mix with other
+changes in the same commit:
+
+- **Project changes**: If the hardening target file (e.g., `.gitignore`) has
+  staged or unstaged changes, the script MUST block remediation until the user
+  commits or reverts those changes. Other dirty files do not block remediation
+  as long as the hardening target is clean.
+- **SpecKit changes**: After applying fixes, the script MUST stop before
+  delegating to `specify`, ensuring hardening changes are committed separately
+  from any changes the SpecKit command might make.
+
+The script MUST NOT commit changes automatically. It only modifies files and
+instructs the user to commit separately.
+
+**Fresh Provisioning Exception**: When provisioning a fresh environment (e.g.,
+`./specify-run init` with no existing `.venv/`), all setup steps MAY complete
+in one pass:
+
+- Create virtualenv
+- Install SpecKit
+- Apply security hardenings
+- Delegate to `specify`
+
+This is acceptable because initial setup changes logically belong together in
+one commit. The commit isolation rule applies only to remediation of drifted
+hardenings, not initial provisioning.
 
 **Rationale**: Security configurations can drift over time due to accidental
 modifications. Idempotent enforcement ensures every invocation verifies the
-expected secure baseline. Stopping after remediation prevents mixing security
-fixes with unrelated changes in the same commit, enabling proper review and
-rollback of each concern independently.
+expected secure baseline. Commit isolation during remediation enables proper
+review and rollback of each concern independently: (a) prior project work,
+(b) hardening fixes, (c) SpecKit operations. Fresh provisioning is exempt
+because all changes are part of a single logical setup operation.
 
 ## Distribution Model
 
@@ -146,4 +170,4 @@ This constitution supersedes conflicting practices. All contributors and agents
 MUST verify compliance before making changes. Use `CLAUDE.md` for runtime
 development guidance.
 
-**Version**: 0.3.0 | **Ratified**: 2026-01-15 | **Last Amended**: 2026-01-17
+**Version**: 0.3.1 | **Ratified**: 2026-01-15 | **Last Amended**: 2026-01-17
