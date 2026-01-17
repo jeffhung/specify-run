@@ -106,7 +106,7 @@ implementation and testing.
 - [x] T022 Manual test: upgrade with no provisioned agents
 - [x] T023 Manual test: upgrade with no existing memory directory
 - [x] T024 [P] Update README.md with upgrade behavior documentation
-- [ ] T025 Run quickstart.md validation scenarios
+- [x] T025 Run quickstart.md validation scenarios
 
 ---
 
