@@ -118,9 +118,9 @@ show_missing_hardenings() {
 ```
 
 **Checklist**:
-- [ ] `show_missing_hardenings()` function implemented
-- [ ] Lists each missing pattern clearly
-- [ ] Message is human-readable
+- [x] `show_missing_hardenings()` function implemented
+- [x] Lists each missing pattern clearly
+- [x] Message is human-readable
 
 ---
 

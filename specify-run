@@ -152,6 +152,14 @@ check_gitignore_hardenings() {
   [[ ${#MISSING_PATTERNS[@]} -eq 0 ]]
 }
 
+show_missing_hardenings() {
+  echo "[specify-run] Security hardenings incomplete."
+  echo "Missing .gitignore patterns:"
+  for pattern in "${MISSING_PATTERNS[@]}"; do
+    echo "  - $pattern"
+  done
+}
+
 configure_gitignore() {
   is_git_repo || return 0
   local gitignore="$ROOT/.gitignore"
