@@ -290,12 +290,18 @@ if [[ ! -f "$STAMP" ]]; then
         "$SPECIFY" init --here --force --ai "$agent"
       done
       restore_memory
+    else
+      info "No SpecKit project files found - skipping re-bootstrap"
     fi
 
     touch "$STAMP"
     echo "[specify-run] SpecKit upgraded to $SPECKIT_REF."
-    echo "Please commit these changes, then re-run ./specify-run:"
-    echo "  git add -A && git commit -m \"chore: upgrade SpecKit to $SPECKIT_REF\""
+    if [[ ${#PROVISIONED_AGENTS[@]} -eq 0 ]]; then
+      echo "Run './specify-run init --ai <agent>' to provision project files."
+    else
+      echo "Please commit these changes, then re-run ./specify-run:"
+      echo "  git add -A && git commit -m \"chore: upgrade SpecKit to $SPECKIT_REF\""
+    fi
     exit "$EX_TEMPFAIL"
   fi
   info "Installing SpecKit ($SPECKIT_REF)"
