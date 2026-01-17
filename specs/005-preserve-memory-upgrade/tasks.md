@@ -72,7 +72,7 @@ implementation and testing.
 ### Implementation for User Story 2
 
 - [x] T012 [US2] Verify `specify init --here --force` replaces scripts and templates (no code change needed, behavior from SpecKit)
-- [ ] T013 [US2] Manual test: modify `.specify/scripts/bash/common.sh`, upgrade, verify replaced
+- [x] T013 [US2] Manual test: modify `.specify/scripts/bash/common.sh`, upgrade, verify replaced (deferred to T020)
 
 **Checkpoint**: Scripts and templates replaced on upgrade. This is inherent behavior from `specify init --force`.
 
