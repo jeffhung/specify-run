@@ -10,8 +10,10 @@
 ### Session 2026-01-17
 
 - Q: What should happen when remediation is needed but the git working copy is
-  dirty? → A: Stop immediately without applying fixes; instruct user to commit
-  existing changes first or use another worktree/branch for re-hardening.
+  dirty? → A: Block only if the specific hardening target file (e.g., `.gitignore`)
+  has staged or unstaged changes. Other files being dirty does not block
+  remediation. The script never commits—it only modifies the file and instructs
+  the user to commit separately.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -112,32 +114,32 @@ behavior, then retry with `SPECIFYRUN_ANSWERS` containing the fix consent.
 
 ---
 
-### User Story 5 - Block Remediation on Dirty Working Copy (Priority: P1)
+### User Story 5 - Block Remediation on Dirty Hardening Target (Priority: P1)
 
-When the script detects missing hardenings but the git working copy has
-uncommitted changes, it refuses to apply fixes. Instead, it stops immediately
-and instructs the user to commit their existing work first (or switch to another
-worktree/branch for re-hardening). This ensures remediation can be committed as
-a standalone commit.
+When the script detects missing hardenings but the hardening target file (e.g.,
+`.gitignore`) has staged or unstaged changes, it refuses to apply fixes. This
+prevents mixing user edits with remediation in the same commit. If other files
+are dirty but the hardening target is clean, remediation proceeds normally.
 
 **Why this priority**: P1 because clean commit separation is constitutionally
-mandated (Principle VII) and dirty working copy would violate this.
+mandated (Principle VII).
 
-**Independent Test**: Create uncommitted changes, remove a `.gitignore` pattern,
-run `./specify-run`, and verify it stops without applying fixes.
+**Independent Test**: Edit `.gitignore` without committing, then run
+`./specify-run` and verify it stops without applying fixes.
 
 **Acceptance Scenarios**:
 
-1. **Given** remediation is needed AND git working copy is dirty,
+1. **Given** remediation is needed AND `.gitignore` has uncommitted changes,
    **When** user runs `./specify-run`,
    **Then** the script stops immediately with a message explaining the user must
-   commit existing changes first before re-hardening can be applied.
+   commit or revert `.gitignore` changes first.
 
-2. **Given** remediation is needed AND git working copy is clean,
+2. **Given** remediation is needed AND `.gitignore` is clean (no staged/unstaged
+   changes), even if other files are dirty,
    **When** user runs `./specify-run`,
    **Then** the script proceeds with normal consent flow for remediation.
 
-3. **Given** hardenings are correct AND git working copy is dirty,
+3. **Given** hardenings are correct,
    **When** user runs `./specify-run`,
    **Then** the script proceeds normally to SpecKit delegation (no remediation
    needed, so dirty state is irrelevant).
@@ -154,8 +156,9 @@ run `./specify-run`, and verify it stops without applying fixes.
   `SPECIFYRUN_ANSWERS`? (Script should exit with code 78 per existing behavior.)
 - What happens when only some patterns are missing from `.gitignore`? (Script
   should detect partial compliance and offer to add only the missing patterns.)
-- What happens when remediation is needed but git working copy is dirty? (Script
-  stops immediately without applying fixes; user must commit first.)
+- What happens when remediation is needed but `.gitignore` has uncommitted
+  changes? (Script stops immediately; user must commit or revert `.gitignore`
+  first. Other dirty files do not block remediation.)
 
 ## Requirements *(mandatory)*
 
@@ -190,14 +193,17 @@ run `./specify-run`, and verify it stops without applying fixes.
   multiple times on a correctly configured project MUST NOT produce additional
   changes or prompts.
 
-- **FR-010**: If remediation is needed AND the git working copy is dirty (has
-  uncommitted changes), the script MUST stop immediately without applying fixes
-  and display a message instructing the user to commit existing changes first
-  or use another worktree/branch for re-hardening.
+- **FR-010**: If remediation is needed AND the hardening target file (e.g.,
+  `.gitignore`) has staged or unstaged changes, the script MUST stop immediately
+  without applying fixes and display a message instructing the user to commit or
+  revert their changes to that file first.
 
-- **FR-011**: The dirty working copy check MUST only block remediation; if
-  hardenings are already correct, the script MUST proceed to SpecKit delegation
-  regardless of working copy state.
+- **FR-011**: If remediation is needed but the hardening target file is clean
+  (no staged/unstaged changes), the script MUST proceed with remediation even if
+  other files in the working copy are dirty.
+
+- **FR-012**: The script MUST NOT commit changes. It only modifies files and
+  instructs the user to commit separately.
 
 ### Key Entities
 
