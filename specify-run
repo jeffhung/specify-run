@@ -296,6 +296,7 @@ if [[ ! -f "$STAMP" ]]; then
         fi
       done
       restore_memory
+      info "Replaced .specify/scripts/ and .specify/templates/"
     else
       info "No SpecKit project files found - skipping re-bootstrap"
     fi
