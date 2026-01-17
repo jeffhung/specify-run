@@ -297,10 +297,10 @@ fi
 ```
 
 **Checklist**:
-- [ ] Upgrade path stops with exit 75
-- [ ] Commit instructions provided
-- [ ] Fresh install does NOT stop
-- [ ] Stamp file remains in `.venv/`
+- [x] Upgrade path stops with exit 75
+- [x] Commit instructions provided
+- [x] Fresh install does NOT stop
+- [x] Stamp file remains in `.venv/`
 
 ---
 

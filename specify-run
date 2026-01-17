@@ -267,6 +267,14 @@ if [[ ! -f "$STAMP" ]]; then
   if [[ -n "$OLD_REF" ]]; then
     prompt_user "upgrade" "About to upgrade SpecKit from $OLD_REF to $SPECKIT_REF"
     rm -f "$VENV"/.speckit-installed-*
+    info "Installing SpecKit ($SPECKIT_REF)"
+    "$PIP" install --upgrade \
+      "git+$SPECKIT_GIT@$SPECKIT_REF"
+    touch "$STAMP"
+    echo "[specify-run] SpecKit upgraded."
+    echo "Please commit these changes, then re-run ./specify-run:"
+    echo "  git add -A && git commit -m \"chore: upgrade SpecKit to $SPECKIT_REF\""
+    exit "$EX_TEMPFAIL"
   fi
   info "Installing SpecKit ($SPECKIT_REF)"
   "$PIP" install --upgrade \
