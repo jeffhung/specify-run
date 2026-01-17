@@ -104,8 +104,11 @@ git add .gitignore && git commit -m "fix: restore specify-run security hardening
 - File-based (`.gitignore` at repository root) (003-gitignore-config)
 - Bash (POSIX-compatible with bashisms) + Git (for dirty check and repo detection) (004-idempotent-hardenings)
 - File-based (`.gitignore` at repository root, stamp in `.venv/`) (004-idempotent-hardenings)
+- Bash + specify CLI (for re-bootstrapping) (005-preserve-memory-upgrade)
+- File-based (`.specify/memory/` backup/restore, agent detection) (005-preserve-memory-upgrade)
 
 ## Recent Changes
+- 005-preserve-memory-upgrade: Preserve memory files during SpecKit upgrade, replace scripts/templates
 - 004-idempotent-hardenings: Added idempotent security enforcement with stop-after-fix
 - 003-gitignore-config: Added gitignore configuration with negation patterns for SpecKit files
 - 001-essential-docs: Added Markdown (documentation only) + None (pure documentation)
