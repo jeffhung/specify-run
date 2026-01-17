@@ -169,6 +169,36 @@ block_if_target_dirty() {
   fi
 }
 
+apply_gitignore_hardenings() {
+  local gitignore="$ROOT/.gitignore"
+
+  if [[ ! -f "$gitignore" ]] || ! grep -q "$GITIGNORE_MARKER" "$gitignore"; then
+    local block="
+$GITIGNORE_MARKER
+.venv/
+!.specify/
+!.specify/scripts/**
+!.specify/templates/**
+!.specify/memory/**
+
+.specify/cache/
+.specify/tmp/
+.specify/logs/
+.specify/.runtime/
+"
+    if ! echo "$block" >> "$gitignore" 2>/dev/null; then
+      echo "WARNING: Could not write to .gitignore (read-only or permission denied)" >&2
+      return 1
+    fi
+  else
+    for pattern in "${MISSING_PATTERNS[@]}"; do
+      echo "$pattern" >> "$gitignore"
+    done
+  fi
+
+  info "Security hardenings applied."
+}
+
 configure_gitignore() {
   is_git_repo || return 0
   local gitignore="$ROOT/.gitignore"

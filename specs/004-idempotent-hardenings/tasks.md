@@ -191,10 +191,10 @@ $GITIGNORE_MARKER
 ```
 
 **Checklist**:
-- [ ] `apply_gitignore_hardenings()` function implemented
-- [ ] Adds full block when marker missing
-- [ ] Adds only missing patterns when marker exists
-- [ ] Uses existing `info()` for output
+- [x] `apply_gitignore_hardenings()` function implemented
+- [x] Adds full block when marker missing
+- [x] Adds only missing patterns when marker exists
+- [x] Uses existing `info()` for output
 
 ---
 
