@@ -5,124 +5,175 @@
 
 ## Research Topics
 
-### 1. Git Dirty Working Copy Detection
+### 1. Hardening Target Dirty Check
 
-**Decision**: Use `git status --porcelain` to detect uncommitted changes.
+**Decision**: Use `git diff --name-only` and `git diff --cached --name-only` to
+check if the specific hardening target file has changes.
 
-**Rationale**: The `--porcelain` flag provides machine-readable output that is
-stable across Git versions. An empty output means clean working copy; any
-output means dirty.
+**Rationale**: Checking only the hardening target (`.gitignore`) rather than
+the entire working copy allows remediation to proceed when other files are
+dirty. This provides better UX while maintaining commit isolation.
 
 **Alternatives considered**:
-- `git diff --quiet`: Only detects tracked file changes, misses untracked files
-- `git status -s`: Similar to porcelain but less stable format guarantees
-- `git diff-index HEAD`: Requires HEAD to exist, fails on initial commit
+- `git status --porcelain`: Checks entire working copy; too broad
+- `git status --porcelain -- .gitignore`: Works but harder to parse
+- `git diff-index HEAD -- .gitignore`: Requires HEAD to exist
 
 **Implementation**:
 ```bash
-is_working_copy_dirty() {
-  [[ -n "$(git status --porcelain 2>/dev/null)" ]]
+is_file_dirty() {
+  local file="$1"
+  [[ -n "$(git diff --name-only -- "$file" 2>/dev/null)" ]] ||
+  [[ -n "$(git diff --cached --name-only -- "$file" 2>/dev/null)" ]]
 }
 ```
 
-### 2. Gitignore Pattern Verification
+### 2. Fresh Provisioning Detection
+
+**Decision**: Check for `.venv/` directory existence to determine if this is
+fresh provisioning or an existing environment.
+
+**Rationale**: The presence of `.venv/` is the canonical marker for an existing
+environment. If it doesn't exist, this is fresh provisioning and all setup
+steps can complete in one pass.
+
+**Implementation**:
+```bash
+is_fresh_provisioning() {
+  [[ ! -d "$VENV" ]]
+}
+```
+
+### 3. Gitignore Pattern Verification
 
 **Decision**: Check for presence of `GITIGNORE_MARKER` and each required pattern
-individually.
+individually using `grep`.
 
 **Rationale**: The existing `configure_gitignore()` function uses a marker
-comment (`# specify-run`) to identify the SpecKit block. Verifying the marker
-confirms the block was added. Individual pattern checks enable partial
-remediation (adding only missing patterns).
+comment (`# specify-run`) to identify the SpecKit block. Individual pattern
+checks enable partial remediation (adding only missing patterns).
 
-**Alternatives considered**:
-- Hash-based verification: Too strict; rejects user additions to `.gitignore`
-- Line-by-line exact match: Breaks if user reorders or adds comments
-- Marker-only check: Current approach; simple but doesn't detect partial removal
-
-**Implementation approach**:
-1. Check if `GITIGNORE_MARKER` exists in `.gitignore`
-2. Check each required pattern (`.venv/`, `!.specify/`, etc.)
-3. Report which specific patterns are missing
-4. Offer to add only missing patterns (partial remediation)
-
-**Required patterns**:
-```text
-# specify-run
-.venv/
-!.specify/
-!.specify/scripts/**
-!.specify/templates/**
-!.specify/memory/**
-
-.specify/cache/
-.specify/tmp/
-.specify/logs/
-.specify/.runtime/
+**Required patterns** (stored in array):
+```bash
+REQUIRED_GITIGNORE_PATTERNS=(
+  ".venv/"
+  "!.specify/"
+  "!.specify/scripts/**"
+  "!.specify/templates/**"
+  "!.specify/memory/**"
+  ".specify/cache/"
+  ".specify/tmp/"
+  ".specify/logs/"
+  ".specify/.runtime/"
+)
 ```
 
-### 3. Stop-After-Fix Behavior
+### 4. Stop-After-Fix Exit Code
 
-**Decision**: Exit with code 0 after applying fixes, with clear message.
+**Decision**: Exit with code 75 (EX_TEMPFAIL) after applying fixes.
 
-**Rationale**: Exit code 0 indicates successful operation (the fix was applied).
-The message clearly instructs the user to commit before re-running. Using a
-non-zero exit code would be misleading since no error occurred.
+**Rationale**: The user's intent when invoking `./specify-run` is to execute
+the `specify` command. If remediation or upgrade stops before delegation, the
+intended operation was NOT completed. Exit code 0 would incorrectly signal
+success. Exit 75 signals "try again later" to both humans and AI agents.
 
-**Alternatives considered**:
-- Exit with code 1: Implies error, but fix succeeded
-- Exit with special code (e.g., 76): Non-standard, harder to document
-- Continue to SpecKit: Violates Principle VII (clean commit separation)
+**When stop-after-fix applies**:
+- Gitignore remediation on existing environment
+- SpecKit upgrade (scripts/templates modified)
 
-**Message format**:
-```text
-[specify-run] Security hardenings applied.
-Please commit these changes before re-running:
-  git add .gitignore && git commit -m "fix: restore specify-run security hardenings"
+**When stop-after-fix does NOT apply**:
+- Fresh provisioning (no `.venv/`)
+- Fresh SpecKit install (only `.venv/` modified, not VCS files)
+
+### 5. SpecKit Upgrade Detection and Stop
+
+**Decision**: Detect upgrade by comparing stamp file version with `SPECKIT_REF`.
+After upgrade, stop with exit 75.
+
+**Rationale**: SpecKit upgrade modifies VCS-tracked files (scripts, templates
+in `.specify/`). These changes deserve a standalone commit, separate from any
+`specify` command output.
+
+**Implementation logic**:
+```bash
+if [[ ! -f "$STAMP" ]]; then
+  OLD_REF=""
+  for f in "$VENV"/.speckit-installed-*; do
+    [[ -f "$f" ]] && OLD_REF="${f##*-installed-}" && break
+  done
+  if [[ -n "$OLD_REF" ]]; then
+    # This is an upgrade
+    prompt_user "upgrade" "About to upgrade SpecKit from $OLD_REF to $SPECKIT_REF"
+    rm -f "$VENV"/.speckit-installed-*
+    pip install ...
+    touch "$STAMP"
+    info "SpecKit upgraded. Please commit changes, then re-run ./specify-run"
+    exit "$EX_TEMPFAIL"
+  fi
+  # Fresh install - continue
+fi
 ```
 
-### 4. Agentic Mode Answer Key
+### 6. Stamp File Location
 
-**Decision**: Use `gitignore` as the answer key for both initial provision and
-remediation consent.
+**Decision**: Keep stamp file inside `.venv/` directory.
 
-**Rationale**: Gitignore hardening provision (during bootstrap) and fixing
-(during remediation) are logically the same idempotent operation. Using a single
-answer key (`gitignore`) simplifies the agent experience—one key covers both
-scenarios. This aligns with the idempotent design principle.
+**Rationale**: When users delete `.venv/` to clean up the environment, the
+stamp file is automatically removed. This prevents stale stamp files from
+causing confusion about SpecKit installation state.
 
-**Hint message**:
-```text
-Append `gitignore=y` to SPECIFYRUN_ANSWERS environment variable to proceed.
-```
+**Location**: `$VENV/.speckit-installed-$SPECKIT_REF`
 
-### 5. Execution Flow
+### 7. Agentic Mode Answer Key
 
-**Decision**: Insert hardening verification after venv/SpecKit setup, before
-`exec "$SPECIFY"`.
+**Decision**: Use `gitignore` as the answer key for hardening consent.
 
-**Rationale**: Hardenings must be verified on every run (Principle VII), but
-only after the environment is ready. Placing the check just before delegation
-ensures:
-1. Venv exists (needed for SpecKit, not for hardening check)
-2. SpecKit is installed (ensures stamp file logic runs first)
-3. Hardenings verified before any SpecKit operation
+**Rationale**: Single key for both initial provision and remediation simplifies
+agent experience. Existing keys `bootstrap` and `upgrade` remain for venv
+creation and SpecKit upgrade respectively.
+
+**Answer keys**:
+- `bootstrap`: Consent for `.venv/` creation
+- `upgrade`: Consent for SpecKit upgrade
+- `gitignore`: Consent for gitignore hardening
+
+### 8. Execution Flow
 
 **Flow diagram**:
 ```text
 1. Sanity checks (Python exists)
-2. Ensure virtualenv (prompt if needed)
-3. Ensure SpecKit installed (prompt if upgrade)
-4. [NEW] Verify security hardenings
-   4a. If all patterns present → continue
-   4b. If patterns missing:
-       - If dirty working copy → stop with message (no fix)
-       - If clean → prompt for consent → apply fix → stop with commit message
-5. exec "$SPECIFY" "$@"
+
+2. Check if fresh provisioning (no .venv/)
+   2a. If fresh:
+       - Prompt for bootstrap consent (key: bootstrap)
+       - Create virtualenv
+       - Install SpecKit (fresh, no stop)
+       - Apply hardenings (no stop)
+       - Delegate to specify
+   
+   2b. If existing (.venv/ exists):
+       - Check SpecKit version
+         - If upgrade needed:
+           - Prompt (key: upgrade)
+           - Install new version
+           - Exit 75 with commit instructions
+       - Verify hardenings
+         - If correct → proceed to step 3
+         - If incorrect:
+           - Check if .gitignore is dirty → block with message
+           - Prompt for consent (key: gitignore)
+           - Apply fix
+           - Exit 75 with commit instructions
+
+3. exec "$SPECIFY" "$@"
 ```
 
 ## Summary
 
-No external research needed. All decisions use existing bash/git patterns
-already present in the codebase. Implementation is straightforward modification
-of the existing `specify-run` script.
+Key implementation decisions:
+1. Check `.gitignore` dirty state specifically, not entire working copy
+2. Use `.venv/` existence to detect fresh vs. existing environment
+3. Fresh provisioning completes in one pass; remediation/upgrade exit 75
+4. Exit 75 signals intended operation needs retry after commit
+5. Stamp file stays in `.venv/` for easy cleanup
+6. Three answer keys: `bootstrap`, `upgrade`, `gitignore`

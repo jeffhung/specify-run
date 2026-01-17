@@ -82,6 +82,7 @@ Exit codes:
 - N/A (stateless, uses stamp file for version tracking) (002-prompting)
 - File-based (`.gitignore` at repository root) (003-gitignore-config)
 - Bash (POSIX-compatible with bashisms) + Git (for dirty check and repo detection) (004-idempotent-hardenings)
+- File-based (`.gitignore` at repository root, stamp in `.venv/`) (004-idempotent-hardenings)
 
 ## Recent Changes
 - 003-gitignore-config: Added gitignore configuration with negation patterns for SpecKit files
