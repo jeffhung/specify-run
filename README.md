@@ -305,6 +305,64 @@ Exit codes: 0 (success), 75 (retry with answer), 78 (config error), 130 (decline
 
 ---
 
+## Security hardenings
+
+The script enforces security hardenings on every execution:
+
+### What gets verified
+
+* `.gitignore` contains required patterns (`.venv/`, `.specify/cache/`, etc.)
+* SpecKit-managed files are properly excluded from version control
+
+### Behavior
+
+| Scenario | Action |
+| -------- | ------ |
+| Hardenings correct | Proceed silently to SpecKit |
+| Hardenings missing (fresh) | Apply during bootstrap, no stop |
+| Hardenings missing (existing) | Prompt, fix, stop with exit 75 |
+| `.gitignore` has uncommitted changes | Block with exit 78 |
+
+### Stop-after-fix
+
+When fixing drifted hardenings on an existing environment, the script stops
+after applying fixes and instructs you to commit:
+
+```bash
+./specify-run
+# [specify-run] Security hardenings applied.
+# Please commit these changes, then re-run ./specify-run:
+#   git add .gitignore && git commit -m "fix: restore specify-run security hardenings"
+# Exit code: 75
+```
+
+This ensures hardening changes are committed separately from SpecKit operations.
+
+### Agentic mode
+
+```bash
+# First attempt - gets hint
+SPECIFYRUN_BY_AGENT=1 ./specify-run
+# Append `gitignore=y` to SPECIFYRUN_ANSWERS environment variable to proceed.
+# Exit code: 75
+
+# Retry with answer
+SPECIFYRUN_BY_AGENT=1 SPECIFYRUN_ANSWERS="gitignore=y" ./specify-run
+# Applies fix, exits 75 with commit instructions
+```
+
+### Answer keys
+
+| Key | Purpose |
+| --- | ------- |
+| `bootstrap` | Consent for `.venv/` creation and SpecKit install |
+| `upgrade` | Consent for SpecKit version upgrade |
+| `gitignore` | Consent for `.gitignore` hardening |
+
+Combine multiple: `SPECIFYRUN_ANSWERS="bootstrap=y,gitignore=y"`
+
+---
+
 ## Design principles (for maintainers)
 
 * **Entry point > environment**
