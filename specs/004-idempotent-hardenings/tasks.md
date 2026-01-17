@@ -235,9 +235,9 @@ Verify that existing `prompt_user()` with key `gitignore` works correctly:
 - Retry with `SPECIFYRUN_ANSWERS="gitignore=y"`: applies fix and stops
 
 **Checklist**:
-- [ ] Agentic mode hint shows `gitignore=y` for remediation
-- [ ] Answer key `gitignore` is used consistently
-- [ ] Exit code 75 on first agentic attempt without answer
+- [x] Agentic mode hint shows `gitignore=y` for remediation
+- [x] Answer key `gitignore` is used consistently
+- [x] Exit code 75 on first agentic attempt without answer
 
 ---
 
