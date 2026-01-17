@@ -224,6 +224,16 @@ detect_provisioned_agents() {
   fi
 }
 
+MEMORY_BACKUP=""
+
+backup_memory() {
+  MEMORY_BACKUP=""
+  if [[ -d "$ROOT/.specify/memory" ]]; then
+    MEMORY_BACKUP="$(mktemp -d)"
+    cp -R "$ROOT/.specify/memory/." "$MEMORY_BACKUP/"
+  fi
+}
+
 # ---------------------------------------------------------------------------
 # Sanity checks
 # ---------------------------------------------------------------------------
