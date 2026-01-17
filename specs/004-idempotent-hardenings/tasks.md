@@ -329,10 +329,10 @@ fi
 ```
 
 **Checklist**:
-- [ ] Verification runs on every execution (existing environment)
-- [ ] Skipped during fresh provisioning
-- [ ] Correct order: detect → show → block-if-dirty → prompt → fix → stop
-- [ ] Proceeds silently when hardenings correct
+- [x] Verification runs on every execution (existing environment)
+- [x] Skipped during fresh provisioning
+- [x] Correct order: detect → show → block-if-dirty → prompt → fix → stop
+- [x] Proceeds silently when hardenings correct
 
 ---
 

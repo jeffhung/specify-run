@@ -245,7 +245,9 @@ command -v "$PYTHON" >/dev/null \
 # Ensure virtualenv
 # ---------------------------------------------------------------------------
 
+FRESH_PROVISIONING=false
 if [[ ! -d "$VENV" ]]; then
+  FRESH_PROVISIONING=true
   prompt_user "bootstrap" "About to create .venv/ and install SpecKit $SPECKIT_REF"
   info "Creating virtualenv at .venv"
   "$PYTHON" -m venv "$VENV"
@@ -292,6 +294,18 @@ fi
 if [[ "$(command -v specify 2>/dev/null || true)" != "$SPECIFY" ]]; then
   :
   # intentionally silent; wrapper always wins
+fi
+
+# ---------------------------------------------------------------------------
+# Verify security hardenings (existing environment only)
+# ---------------------------------------------------------------------------
+
+if [[ "$FRESH_PROVISIONING" == "false" ]] && ! check_gitignore_hardenings; then
+  show_missing_hardenings
+  block_if_target_dirty
+  prompt_user "gitignore" "About to restore missing .gitignore patterns"
+  apply_gitignore_hardenings
+  stop_after_gitignore_fix
 fi
 
 # ---------------------------------------------------------------------------
