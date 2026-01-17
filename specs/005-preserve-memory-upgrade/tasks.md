@@ -104,7 +104,7 @@ implementation and testing.
 - [x] T020 Manual test: full upgrade flow with single agent (claude)
 - [x] T021 Manual test: upgrade flow with multiple agents (claude + copilot) (skipped - no copilot environment)
 - [x] T022 Manual test: upgrade with no provisioned agents
-- [ ] T023 Manual test: upgrade with no existing memory directory
+- [x] T023 Manual test: upgrade with no existing memory directory
 - [ ] T024 [P] Update README.md with upgrade behavior documentation
 - [ ] T025 Run quickstart.md validation scenarios
 
