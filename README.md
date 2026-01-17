@@ -322,7 +322,26 @@ SPECIFYRUN_BY_AGENT=1 SPECIFYRUN_ANSWERS="bootstrap=y" ./specify-run
 # Proceeds with installation
 ```
 
-Exit codes: 0 (success), 75 (retry with answer), 78 (config error), 130 (declined)
+### Exit codes
+
+| Code | Name | Meaning |
+| ---- | ---- | ------- |
+| 0 | Success | SpecKit executed successfully |
+| 75 | Retry needed | Preparation incomplete; take action then re-run |
+| 78 | Config error | Cannot proceed due to configuration issue |
+| 130 | Declined | User declined a prompt |
+
+Exit code 75 (EX_TEMPFAIL) indicates `specify-run` stopped before reaching
+SpecKit. The requested `specify` operation has **not** run. Common scenarios:
+
+* Consent needed → provide answer via `SPECIFYRUN_ANSWERS`, then re-run
+* Security hardenings applied → commit changes, then re-run
+* SpecKit upgraded → commit changes, then re-run
+
+Exit code 78 (EX_CONFIG) indicates a blocking configuration issue:
+
+* `.gitignore` has uncommitted changes and hardenings are incomplete
+* Non-interactive mode without required answers
 
 ---
 
