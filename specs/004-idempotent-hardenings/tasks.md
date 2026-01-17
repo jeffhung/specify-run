@@ -367,14 +367,14 @@ Test the following scenarios manually:
    - Expected: Hint with exit 75, retry with answer works
 
 **Checklist**:
-- [ ] Fresh provisioning tested
-- [ ] Normal operation tested
-- [ ] Remediation flow tested
-- [ ] Dirty target blocking tested
-- [ ] Other dirty files don't block tested
-- [ ] Upgrade stop tested
-- [ ] Agentic mode tested
-- [ ] All exit codes verified (0, 75, 78, 130)
+- [x] Fresh provisioning tested
+- [x] Normal operation tested
+- [x] Remediation flow tested
+- [x] Dirty target blocking tested
+- [x] Other dirty files don't block tested
+- [x] Upgrade stop tested
+- [x] Agentic mode tested
+- [x] All exit codes verified (0, 75, 78, 130)
 
 ---
 
