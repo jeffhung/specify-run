@@ -60,7 +60,7 @@ die() {
 }
 
 info() {
-  echo "[specify] $*"
+  echo "[specify-run] $*"
 }
 
 prompt_user() {
