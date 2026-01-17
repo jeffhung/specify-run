@@ -196,7 +196,7 @@ $GITIGNORE_MARKER
     done
   fi
 
-  info "Security hardenings applied."
+  info "Configured .gitignore"
 }
 
 stop_after_gitignore_fix() {
@@ -204,34 +204,6 @@ stop_after_gitignore_fix() {
   echo "Please commit these changes, then re-run ./specify-run:"
   echo "  git add .gitignore && git commit -m \"fix: restore specify-run security hardenings\""
   exit "$EX_TEMPFAIL"
-}
-
-configure_gitignore() {
-  is_git_repo || return 0
-  local gitignore="$ROOT/.gitignore"
-  if [[ -f "$gitignore" ]] && grep -q "$GITIGNORE_MARKER" "$gitignore"; then
-    return 0
-  fi
-  prompt_user "gitignore" "About to configure .gitignore with SpecKit patterns"
-  local block
-  block="
-$GITIGNORE_MARKER
-.venv/
-!.specify/
-!.specify/scripts/**
-!.specify/templates/**
-!.specify/memory/**
-
-.specify/cache/
-.specify/tmp/
-.specify/logs/
-.specify/.runtime/
-"
-  if ! echo "$block" >> "$gitignore" 2>/dev/null; then
-    echo "WARNING: Could not write to .gitignore (read-only or permission denied)" >&2
-    return 0
-  fi
-  info "Configured .gitignore"
 }
 
 # ---------------------------------------------------------------------------
@@ -251,7 +223,7 @@ if [[ ! -d "$VENV" ]]; then
   prompt_user "bootstrap" "About to create .venv/ and install SpecKit $SPECKIT_REF"
   info "Creating virtualenv at .venv"
   "$PYTHON" -m venv "$VENV"
-  is_git_repo && configure_gitignore
+  is_git_repo && apply_gitignore_hardenings
 fi
 
 SPECIFY="$VENV/bin/specify"
