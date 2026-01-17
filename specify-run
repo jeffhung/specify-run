@@ -206,6 +206,24 @@ stop_after_gitignore_fix() {
   exit "$EX_TEMPFAIL"
 }
 
+PROVISIONED_AGENTS=()
+
+detect_provisioned_agents() {
+  PROVISIONED_AGENTS=()
+  if ls "$ROOT/.claude/commands/speckit."*.md >/dev/null 2>&1; then
+    PROVISIONED_AGENTS+=("claude")
+  fi
+  if ls "$ROOT/.github/prompts/speckit."*.prompt.md >/dev/null 2>&1; then
+    PROVISIONED_AGENTS+=("copilot")
+  fi
+  if ls "$ROOT/.gemini/speckit."*.md >/dev/null 2>&1; then
+    PROVISIONED_AGENTS+=("gemini")
+  fi
+  if ls "$ROOT/.cursor/prompts/speckit."*.md >/dev/null 2>&1; then
+    PROVISIONED_AGENTS+=("cursor-agent")
+  fi
+}
+
 # ---------------------------------------------------------------------------
 # Sanity checks
 # ---------------------------------------------------------------------------

@@ -25,7 +25,7 @@ implementation and testing.
 
 **Purpose**: Add helper functions and constants needed by all user stories
 
-- [ ] T001 Add `detect_provisioned_agents()` function in `specify-run`
+- [x] T001 Add `detect_provisioned_agents()` function in `specify-run`
 - [ ] T002 Add `backup_memory()` function in `specify-run`
 - [ ] T003 [P] Add `restore_memory()` function in `specify-run`
 
