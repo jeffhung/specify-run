@@ -126,6 +126,32 @@ is_fresh_provisioning() {
   [[ ! -d "$VENV" ]]
 }
 
+MISSING_PATTERNS=()
+
+check_gitignore_hardenings() {
+  is_git_repo || return 0
+  local gitignore="$ROOT/.gitignore"
+  MISSING_PATTERNS=()
+
+  if [[ ! -f "$gitignore" ]]; then
+    MISSING_PATTERNS=("${REQUIRED_GITIGNORE_PATTERNS[@]}")
+    return 1
+  fi
+
+  if ! grep -q "$GITIGNORE_MARKER" "$gitignore"; then
+    MISSING_PATTERNS=("${REQUIRED_GITIGNORE_PATTERNS[@]}")
+    return 1
+  fi
+
+  for pattern in "${REQUIRED_GITIGNORE_PATTERNS[@]}"; do
+    if ! grep -Fxq "$pattern" "$gitignore"; then
+      MISSING_PATTERNS+=("$pattern")
+    fi
+  done
+
+  [[ ${#MISSING_PATTERNS[@]} -eq 0 ]]
+}
+
 configure_gitignore() {
   is_git_repo || return 0
   local gitignore="$ROOT/.gitignore"

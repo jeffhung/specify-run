@@ -91,12 +91,12 @@ check_gitignore_hardenings() {
 ```
 
 **Checklist**:
-- [ ] `check_gitignore_hardenings()` function implemented
-- [ ] Returns 0 when all patterns present
-- [ ] Returns 1 with `MISSING_PATTERNS` populated when patterns missing
-- [ ] Handles missing `.gitignore` file
-- [ ] Handles missing marker
-- [ ] Idempotent: multiple runs on correct config produce no output
+- [x] `check_gitignore_hardenings()` function implemented
+- [x] Returns 0 when all patterns present
+- [x] Returns 1 with `MISSING_PATTERNS` populated when patterns missing
+- [x] Handles missing `.gitignore` file
+- [x] Handles missing marker
+- [x] Idempotent: multiple runs on correct config produce no output
 
 ---
 
