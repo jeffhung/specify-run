@@ -154,6 +154,27 @@ SPECKIT_REF="v0.3.2"
 
 The next run will automatically upgrade.
 
+### What happens during upgrade
+
+When upgrading SpecKit, the script:
+
+1. Installs the new SpecKit CLI version
+2. Detects which AI agents are provisioned (claude, copilot, etc.)
+3. Backs up `.specify/memory/` (project-specific files)
+4. Re-bootstraps project files for each agent (`specify init --here --force`)
+5. Restores `.specify/memory/`
+6. Exits with code 75, prompting you to commit
+
+| Directory | Behavior | Rationale |
+| --------- | -------- | --------- |
+| `.specify/memory/` | **Preserved** | Project-specific knowledge |
+| `.specify/scripts/` | Replaced | SpecKit-managed tooling |
+| `.specify/templates/` | Replaced | SpecKit-managed templates |
+| `.claude/commands/` | Replaced | SpecKit-managed commands |
+
+If no agents are provisioned, the script upgrades only the CLI and skips
+re-bootstrapping.
+
 ### Upgrade the specify-run script
 
 The `specify-run` script itself may receive updates (bug fixes, new features).
