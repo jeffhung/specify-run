@@ -27,7 +27,7 @@ implementation and testing.
 
 - [x] T001 Add `detect_provisioned_agents()` function in `specify-run`
 - [x] T002 Add `backup_memory()` function in `specify-run`
-- [ ] T003 [P] Add `restore_memory()` function in `specify-run`
+- [x] T003 [P] Add `restore_memory()` function in `specify-run`
 
 ---
 

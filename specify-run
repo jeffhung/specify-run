@@ -234,6 +234,14 @@ backup_memory() {
   fi
 }
 
+restore_memory() {
+  if [[ -n "$MEMORY_BACKUP" ]]; then
+    rm -rf "$ROOT/.specify/memory"
+    mv "$MEMORY_BACKUP" "$ROOT/.specify/memory"
+    MEMORY_BACKUP=""
+  fi
+}
+
 # ---------------------------------------------------------------------------
 # Sanity checks
 # ---------------------------------------------------------------------------
