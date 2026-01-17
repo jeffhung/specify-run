@@ -86,7 +86,7 @@ implementation and testing.
 
 ### Implementation for User Story 3
 
-- [ ] T014 [US3] Add info message "Backed up .specify/memory/" in `backup_memory()` in `specify-run`
+- [x] T014 [US3] Add info message "Backed up .specify/memory/" in `backup_memory()` in `specify-run`
 - [ ] T015 [US3] Add info message "Re-bootstrapping for $agent..." before each `specify init` in `specify-run`
 - [ ] T016 [US3] Add info message "Preserved .specify/memory/ (project-specific files)" after restore in `specify-run`
 - [ ] T017 [US3] Add info message "Replaced .specify/scripts/ and .specify/templates/" after all inits in `specify-run`

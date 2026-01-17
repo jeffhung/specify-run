@@ -231,6 +231,7 @@ backup_memory() {
   if [[ -d "$ROOT/.specify/memory" ]]; then
     MEMORY_BACKUP="$(mktemp -d)"
     cp -R "$ROOT/.specify/memory/." "$MEMORY_BACKUP/"
+    info "Backed up .specify/memory/"
   fi
 }
 
