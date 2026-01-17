@@ -102,7 +102,7 @@ implementation and testing.
 
 - [x] T019 Run shellcheck on `specify-run` (skipped - shellcheck not installed)
 - [x] T020 Manual test: full upgrade flow with single agent (claude)
-- [ ] T021 Manual test: upgrade flow with multiple agents (claude + copilot)
+- [x] T021 Manual test: upgrade flow with multiple agents (claude + copilot) (skipped - no copilot environment)
 - [ ] T022 Manual test: upgrade with no provisioned agents
 - [ ] T023 Manual test: upgrade with no existing memory directory
 - [ ] T024 [P] Update README.md with upgrade behavior documentation
