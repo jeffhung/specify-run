@@ -34,23 +34,28 @@ required.
 ## Phase 2: User Story 1 - View Combined Version Information (Priority: P1) MVP
 
 **Goal**: Display both specify-run and SpecKit versions when running
-`./specify-run version`
+`./specify-run version` with NO side effects (no bootstrap, no hardenings)
 
-**Independent Test**: Run `./specify-run version` and verify both version
-strings appear in output
+**Independent Test**: Run `./specify-run version` and verify:
+- Wrapper version displayed
+- SpecKit version displayed (if installed)
+- No .venv created in fresh environment
+- No hardenings applied
 
 ### Implementation for User Story 1
 
 - [ ] T001 [US1] Add SPECIFYRUN_VERSION="0.6.0" to Configuration section in specify-run
-- [ ] T002 [US1] Add version display logic before exec statement in specify-run
+- [ ] T002 [US1] Add early-exit version logic after REQUIRED_GITIGNORE_PATTERNS in specify-run
 - [ ] T003 [US1] Verify version output shows "specify-run 0.6.0" followed by SpecKit version
 
 ### Tests for User Story 1
 
 - [ ] T004 [P] [US1] Create version output test in tests/test_version.sh
-- [ ] T005 [US1] Verify other commands pass through unchanged (e.g., ./specify-run init --help)
+- [ ] T005 [US1] Verify no side effects: version command does not create .venv
+- [ ] T006 [US1] Verify other commands pass through unchanged (e.g., ./specify-run init --help)
 
-**Checkpoint**: User Story 1 complete - version command displays both versions
+**Checkpoint**: User Story 1 complete - version command displays versions with
+no side effects
 
 ---
 
@@ -63,8 +68,8 @@ Configuration section alongside SPECKIT_GIT and SPECKIT_REF
 
 ### Implementation for User Story 2
 
-- [ ] T006 [US2] Verify version variable placement is correct in specify-run (already done in T001)
-- [ ] T007 [US2] Add comment "# Wrapper version (Semantic Versioning)" above variable in specify-run
+- [ ] T007 [US2] Verify version variable placement is correct in specify-run (already done in T001)
+- [ ] T008 [US2] Add comment "# Wrapper version (Semantic Versioning)" above variable in specify-run
 
 **Checkpoint**: User Story 2 complete - version variable clearly labeled in
 configuration section
@@ -75,10 +80,12 @@ configuration section
 
 **Purpose**: Final validation and documentation
 
-- [ ] T008 Run quickstart.md Test 1: Version command verification
-- [ ] T009 Run quickstart.md Test 2: Other commands unchanged
-- [ ] T010 Run quickstart.md Test 3: Version format validation (semver pattern)
-- [ ] T011 Update README.md to document `./specify-run version` command
+- [ ] T009 Run quickstart.md Test 1: Version command (SpecKit installed)
+- [ ] T010 Run quickstart.md Test 2: Version command (fresh environment)
+- [ ] T011 Run quickstart.md Test 3: Other commands unchanged
+- [ ] T012 Run quickstart.md Test 4: Version format validation (semver pattern)
+- [ ] T013 Run quickstart.md Test 5: No side effects verification
+- [ ] T014 Update README.md to document `./specify-run version` command
 
 ---
 
@@ -99,7 +106,7 @@ configuration section
 ### Parallel Opportunities
 
 - T004 (test file) can be created in parallel with T001-T002
-- All tasks in Phase 4 (T008-T010) can run in parallel
+- All tasks in Phase 4 (T009-T013) can run in parallel
 
 ---
 
@@ -118,10 +125,11 @@ Task: "Create version output test in tests/test_version.sh"
 ### MVP First (User Story 1 Only)
 
 1. Complete T001: Add version variable
-2. Complete T002: Add version display logic
+2. Complete T002: Add early-exit version logic (CRITICAL: before bootstrap)
 3. Complete T003: Verify output
-4. **STOP and VALIDATE**: Test `./specify-run version` independently
-5. Deploy/demo if ready
+4. Complete T005: Verify no side effects
+5. **STOP and VALIDATE**: Test `./specify-run version` independently
+6. Deploy/demo if ready
 
 ### Full Delivery
 
@@ -133,7 +141,8 @@ Task: "Create version output test in tests/test_version.sh"
 
 ## Notes
 
-- Single file modification (~10 lines added to specify-run)
+- Single file modification (~15 lines added to specify-run)
 - No external dependencies
 - Version format: MAJOR.MINOR.PATCH (0.6.0)
+- **CRITICAL**: Version logic must be EARLY EXIT - before any bootstrap/hardening
 - Commit after T002 for minimal viable change
