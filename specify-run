@@ -63,7 +63,8 @@ print_version_banner() {
   local title_name="specify-run"
   local title_ver="$SPECIFYRUN_VERSION"
   local subtitle="Deterministic SpecKit Execution with Safety"
-  local term_width="${COLUMNS:-$(tput cols 2>/dev/null </dev/tty 2>/dev/null || echo 80)}"
+  local term_width="${COLUMNS:-$(stty size </dev/tty 2>/dev/null | awk '{print $2}')}"
+  [[ -z "$term_width" || "$term_width" -eq 0 ]] && term_width=80
   local min_width=$((${#subtitle} + 4))
 
   if [[ $term_width -lt $min_width ]]; then
