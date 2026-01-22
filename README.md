@@ -80,6 +80,15 @@ No manual setup is required.
 ./specify-run <subcommand> [args...]
 ```
 
+### Check versions
+
+```bash
+./specify-run version
+```
+
+Displays both specify-run and SpecKit versions (if installed) with no side
+effects. Safe to run before bootstrap.
+
 ---
 
 ## Canonical rule (important)

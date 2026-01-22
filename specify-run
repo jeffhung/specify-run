@@ -14,11 +14,16 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 VENV="$ROOT/.venv"
+SPECIFY="$VENV/bin/specify"
+PIP="$VENV/bin/pip"
 PYTHON="${PYTHON:-python3}"
 
 # ---------------------------------------------------------------------------
 # Configuration (PIN HERE)
 # ---------------------------------------------------------------------------
+
+# Wrapper version (Semantic Versioning)
+SPECIFYRUN_VERSION="0.6.0"
 
 # Pin SpecKit source and ref
 SPECKIT_GIT="https://github.com/github/spec-kit.git"
@@ -49,6 +54,47 @@ REQUIRED_GITIGNORE_PATTERNS=(
 
 EX_TEMPFAIL=75
 EX_CONFIG=78
+
+# ---------------------------------------------------------------------------
+# Version command (early exit, no side effects)
+# ---------------------------------------------------------------------------
+
+print_version_banner() {
+  local title_name="specify-run"
+  local title_ver="$SPECIFYRUN_VERSION"
+  local subtitle="Deterministic SpecKit Execution with Safety"
+  local term_width="${COLUMNS:-$(tput cols 2>/dev/null </dev/tty 2>/dev/null || echo 80)}"
+  local min_width=$((${#subtitle} + 4))
+
+  if [[ $term_width -lt $min_width ]]; then
+    echo ">>> $title_name $title_ver"
+    echo "    $subtitle"
+    return
+  fi
+
+  local width=$((term_width - 2))
+  local title="$title_name $title_ver"
+  local title_pad=$(( (width - ${#title}) / 2 ))
+  local subtitle_pad=$(( (width - ${#subtitle}) / 2 ))
+  local bold=$'\033[1m'
+  local reset=$'\033[0m'
+  printf '╭%s╮\n' "$(printf '─%.0s' $(seq 1 $width))"
+  printf '│%*s│\n' "$width" ""
+  printf '│%*s%s%s%s %s%*s│\n' "$title_pad" "" "$bold" "$title_name" "$reset" "$title_ver" "$((width - title_pad - ${#title}))" ""
+  printf '│%*s│\n' "$width" ""
+  printf '│%*s%s%*s│\n' "$subtitle_pad" "" "$subtitle" "$((width - subtitle_pad - ${#subtitle}))" ""
+  printf '│%*s│\n' "$width" ""
+  printf '╰%s╯\n' "$(printf '─%.0s' $(seq 1 $width))"
+}
+
+if [[ "${1:-}" == "version" ]]; then
+  print_version_banner
+  if [[ -x "$SPECIFY" ]]; then
+    echo ""
+    exec "$SPECIFY" "$@"
+  fi
+  exit 0
+fi
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -263,9 +309,6 @@ if [[ ! -d "$VENV" ]]; then
   "$PYTHON" -m venv "$VENV"
   is_git_repo && apply_gitignore_hardenings
 fi
-
-SPECIFY="$VENV/bin/specify"
-PIP="$VENV/bin/pip"
 
 # ---------------------------------------------------------------------------
 # Ensure SpecKit installed (pinned)
