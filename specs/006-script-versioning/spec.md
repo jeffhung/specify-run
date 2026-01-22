@@ -26,10 +26,14 @@ and verifying both version strings appear in the output.
 
 1. **Given** a properly configured environment with SpecKit installed, **When**
    the user runs `./specify-run version`, **Then** the output displays the
-   specify-run version (e.g., "0.6.0") followed by or alongside the SpecKit
-   version information.
+   specify-run version (e.g., "0.6.0") followed by the SpecKit version
+   information, with no side effects (no bootstrap, no hardenings applied).
 
-2. **Given** a properly configured environment, **When** the user runs
+2. **Given** a fresh environment without SpecKit installed, **When** the user
+   runs `./specify-run version`, **Then** only the specify-run version is
+   displayed (SpecKit version omitted), and no bootstrap or installation occurs.
+
+3. **Given** a properly configured environment, **When** the user runs
    `./specify-run version`, **Then** the specify-run version follows Semantic
    Versioning format (MAJOR.MINOR.PATCH).
 
@@ -59,8 +63,8 @@ section.
 ### Edge Cases
 
 - What happens when SpecKit is not yet installed (fresh environment)?
-  - When running `./specify-run version` before bootstrap, the wrapper should
-    proceed with bootstrap first (existing behavior), then show versions.
+  - The wrapper MUST display only the specify-run version without triggering
+    bootstrap. SpecKit version is omitted since it is not available.
 - What happens when the specify command fails or produces errors?
   - The wrapper version display should not interfere with normal error handling.
 - What happens when other arguments are passed to specify-run?
@@ -75,8 +79,9 @@ section.
   Versioning format (MAJOR.MINOR.PATCH).
 - **FR-002**: The initial version MUST be set to 0.6.0.
 - **FR-003**: When invoked with `version` as the first argument, the script MUST
-  display the specify-run version before passing through to SpecKit's version
-  output.
+  display the specify-run version without triggering any side effects (no
+  bootstrap, no hardening, no SpecKit installation). The script MUST delegate
+  to `specify version` only if SpecKit is already installed.
 - **FR-004**: The version display MUST clearly distinguish between the wrapper
   version and the SpecKit version.
 - **FR-005**: When other arguments are provided, the script MUST pass them
@@ -105,3 +110,11 @@ section.
   match.
 - No additional command-line options (like `--version`) are needed since
   `./specify-run version` serves this purpose.
+
+## Clarifications
+
+### Session 2026-01-22
+
+- Q: Should `./specify-run version` trigger bootstrap/hardenings if SpecKit is
+  not installed? → A: No side effects. Display wrapper version only; delegate
+  to `specify version` only if SpecKit already installed.
