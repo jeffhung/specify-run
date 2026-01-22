@@ -6,8 +6,8 @@
 ## Overview
 
 This feature adds version tracking to the specify-run wrapper script. The
-implementation is straightforward with no external dependencies or complex
-design decisions required.
+implementation requires early exit logic to ensure no side effects occur when
+the version command is invoked.
 
 ## Research Topics
 
@@ -21,7 +21,7 @@ Users can easily identify which component each version refers to.
 **Format**:
 ```
 specify-run 0.6.0
-[SpecKit version output follows]
+[SpecKit version output follows, if installed]
 ```
 
 **Alternatives considered**:
@@ -41,24 +41,37 @@ Maintainers updating SpecKit ref can easily see and update wrapper version.
 - Separate "Wrapper Configuration" section - rejected as unnecessary separation
 - At top of file before shebang - not valid bash syntax
 
-### 3. Version Command Detection
+### 3. Version Command Detection - Early Exit Strategy
 
-**Decision**: Check if first argument is `version` before delegating to SpecKit.
+**Decision**: Check if first argument is `version` immediately after variable
+initialization and before any bootstrap/hardening logic.
 
-**Rationale**: Simple conditional check that intercepts only the version
-command. All other commands pass through unchanged.
+**Rationale**: The version command must have zero side effects per FR-003. By
+checking early and exiting before any file system operations, we guarantee no
+bootstrap, no hardenings, and no SpecKit installation is triggered.
 
 **Implementation approach**:
 ```bash
+# Early exit for version command (no side effects)
 if [[ "${1:-}" == "version" ]]; then
   echo "specify-run $SPECIFYRUN_VERSION"
+  if [[ -x "$VENV/bin/specify" ]]; then
+    exec "$VENV/bin/specify" version
+  fi
+  exit 0
 fi
-exec "$SPECIFY" "$@"
 ```
 
+**Key design points**:
+- Check happens BEFORE bootstrap logic
+- Only delegates to `specify version` if executable exists
+- Exits with 0 after displaying wrapper version (even without SpecKit)
+- No prompts, no file modifications, no network calls
+
 **Alternatives considered**:
-- Using getopts for --version flag - rejected per spec (use subcommand instead)
-- Checking after bootstrap - current approach already does this
+- Checking after bootstrap - rejected per clarification (must have no side
+  effects)
+- Using a flag like --version - rejected per spec (use subcommand instead)
 
 ### 4. Semantic Versioning Compliance
 
@@ -70,6 +83,23 @@ Pre-release suffixes can be added later if needed.
 
 **Starting version**: 0.6.0 (as specified by user, reflecting 5 prior SpecKit
 iterations)
+
+### 5. Fresh Environment Behavior
+
+**Decision**: Display only wrapper version when SpecKit is not installed.
+
+**Rationale**: Per FR-003, no bootstrap should occur. Users see what's available
+without triggering installation. This is useful for:
+- Verifying specify-run is correctly placed in a project
+- Checking wrapper version before deciding to bootstrap
+- Quick version check in CI/scripts without side effects
+
+**Output in fresh environment**:
+```
+specify-run 0.6.0
+```
+
+(No error message, no SpecKit version - clean output)
 
 ## No Clarifications Needed
 

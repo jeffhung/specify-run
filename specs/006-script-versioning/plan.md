@@ -8,8 +8,9 @@
 Add version tracking to the specify-run wrapper script. When invoked with
 `./specify-run version`, display the wrapper version (starting at 0.6.0,
 following Semantic Versioning) before delegating to SpecKit's version output.
-The version variable is declared in the script's configuration section for easy
-maintenance.
+The version command MUST have no side effects - no bootstrap, no hardenings,
+no SpecKit installation. Delegate to `specify version` only if SpecKit is
+already installed.
 
 ## Technical Context
 
@@ -20,8 +21,9 @@ maintenance.
 **Target Platform**: macOS, Linux (any POSIX-compatible system with Bash)
 **Project Type**: Single file script
 **Performance Goals**: Version display in <1 second
-**Constraints**: Must not break existing functionality; single-file distribution
-**Scale/Scope**: Single script modification (~10 lines added)
+**Constraints**: Must not break existing functionality; single-file distribution;
+version command must have zero side effects
+**Scale/Scope**: Single script modification (~15 lines added)
 
 ## Constitution Check
 
@@ -34,8 +36,8 @@ maintenance.
 | III. Pinned Reproducibility | PASS | Wrapper version is explicit in script |
 | IV. Explicit Upgrades | PASS | Version change requires editing script |
 | V. Agent-Safe Design | PASS | Clear invocation: `./specify-run version` |
-| VI. User Consent | N/A | No file modifications by this feature |
-| VII. Idempotent Security | N/A | No security hardenings affected |
+| VI. User Consent | PASS | Version command has no side effects, no consent needed |
+| VII. Idempotent Security | PASS | Version command bypasses hardenings check |
 | VIII. Upgrade File Handling | N/A | No memory/scripts/templates affected |
 
 **Result**: All applicable gates PASS. No violations to justify.
